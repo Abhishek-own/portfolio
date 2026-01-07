@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: rgb(3 7 18);
+    color: white;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(
+      to right,
+      rgb(192 132 252),
+      rgb(236 72 153),
+      rgb(250 204 21)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glow {
+    box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-rotate {
+  animation: rotate 20s linear infinite;
+}
