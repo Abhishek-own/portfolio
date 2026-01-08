@@ -27,7 +27,7 @@ export default function ByteSection() {
 
   // Connect to Byte WebSocket
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://byte-backend-b05x.onrender.com");
 
     newSocket.on("connect", () => {
       console.log("🤖 Connected to Byte!");
@@ -189,11 +189,14 @@ export default function ByteSection() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Ask Byte about Abhishek..."
                   disabled={isLoading || !socket}
+                  suppressHydrationWarning
                   className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50"
                 />
+
                 <motion.button
                   type="submit"
                   disabled={isLoading || !message.trim() || !socket}
+                  suppressHydrationWarning
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
