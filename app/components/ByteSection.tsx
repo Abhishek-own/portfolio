@@ -9,6 +9,7 @@ import { io, Socket } from "socket.io-client";
 export default function ByteSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const [message, setMessage] = useState("");
   const [conversation, setConversation] = useState<
     Array<{ role: "user" | "byte"; text: string; wasRoasted?: boolean }>
@@ -24,6 +25,14 @@ export default function ByteSection() {
     () => `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
   const [roastCount, setRoastCount] = useState(0);
+
+  // Auto-scroll to bottom when conversation updates
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [conversation, isLoading]);
 
   // Connect to Byte WebSocket
   useEffect(() => {
@@ -134,7 +143,14 @@ export default function ByteSection() {
               className="bg-gray-900/50 backdrop-blur-xl rounded-2xl p-6 mb-8 max-w-2xl mx-auto"
             >
               {/* Conversation History */}
-              <div className="max-h-96 overflow-y-auto mb-4 space-y-4">
+              <div
+                ref={chatContainerRef}
+                className="max-h-96 overflow-y-auto mb-4 space-y-4 scroll-smooth scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800/50 hover:scrollbar-thumb-purple-400"
+                style={{
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#545067 rgba(31, 41, 55, 0.5)",
+                }}
+              >
                 {conversation.map((msg, index) => (
                   <motion.div
                     key={index}
