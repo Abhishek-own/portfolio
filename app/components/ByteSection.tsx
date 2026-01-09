@@ -36,7 +36,7 @@ export default function ByteSection() {
 
   // Connect to Byte WebSocket
   useEffect(() => {
-    const newSocket = io("https://byte-backend-b05x.onrender.com");
+    const newSocket = io("http://localhost:3000");
 
     newSocket.on("connect", () => {
       console.log("🤖 Connected to Byte!");
@@ -122,7 +122,7 @@ export default function ByteSection() {
               anything about my work! (Or get roasted trying 😈)
             </p>
 
-            {/* Roast Counter */}
+            {/* Roast Counter
             {roastCount > 0 && (
               <motion.div
                 initial={{ scale: 0 }}
@@ -133,7 +133,7 @@ export default function ByteSection() {
                   🔥 Roasted {roastCount} time{roastCount > 1 ? "s" : ""}!
                 </span>
               </motion.div>
-            )}
+            )} */}
 
             {/* Chat Interface */}
             <motion.div
@@ -170,17 +170,19 @@ export default function ByteSection() {
                       className={`${
                         msg.role === "user"
                           ? "bg-purple-600"
-                          : msg.wasRoasted
-                          ? "bg-red-900/50 border-2 border-red-500"
-                          : "bg-gray-800"
+                          : // : msg.wasRoasted
+                            // ? "bg-red-900/50 border-2 border-red-500"
+                            "bg-gray-800"
                       } rounded-2xl p-4 flex-1 text-left`}
                     >
-                      <p className="text-gray-300">{msg.text}</p>
-                      {msg.wasRoasted && (
+                      <p className="text-gray-300 whitespace-pre-line">
+                        {msg.text}
+                      </p>
+                      {/* {msg.wasRoasted && (
                         <span className="text-xs text-red-400 mt-2 block">
                           🔥 You got roasted!
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </motion.div>
                 ))}
