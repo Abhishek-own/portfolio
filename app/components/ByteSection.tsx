@@ -36,7 +36,7 @@ export default function ByteSection() {
 
   // Connect to Byte WebSocket
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://byte-backend-b05x.onrender.com/");
 
     newSocket.on("connect", () => {
       console.log("🤖 Connected to Byte!");
@@ -87,12 +87,16 @@ export default function ByteSection() {
   };
 
   return (
-    <section id="byte" className="min-h-screen py-20 relative" ref={ref}>
-      <div className="container mx-auto px-6">
+    <section
+      id="byte"
+      className="min-h-screen py-12 md:py-20 relative"
+      ref={ref}
+    >
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="glass p-12 rounded-[3rem] border-4 border-purple-500 relative overflow-hidden max-w-4xl mx-auto"
+          className="glass p-6 md:p-12 rounded-3xl md:rounded-[3rem] border-2 md:border-4 border-purple-500 relative overflow-hidden max-w-4xl mx-auto"
         >
           {/* Animated Glow Effect */}
           <motion.div
@@ -106,46 +110,33 @@ export default function ByteSection() {
             <motion.div
               animate={{ rotate: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="text-8xl mb-6 inline-block"
+              className="text-5xl md:text-8xl mb-4 md:mb-6 inline-block"
             >
               🤖
             </motion.div>
 
-            <h2 className="text-5xl md:text-6xl font-black mb-6 text-gradient">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 text-gradient px-2">
               Meet Byte - My AI Assistant
             </h2>
 
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto px-2">
               Byte is my custom AI assistant with one mission: Answer questions
               about me and roast anyone who asks off-topic questions. It's
               blessed with serving the greatest developer. Go ahead, ask Byte
               anything about my work! (Or get roasted trying 😈)
             </p>
 
-            {/* Roast Counter
-            {roastCount > 0 && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="mb-4 inline-block bg-red-500/20 border border-red-500 rounded-full px-4 py-2"
-              >
-                <span className="text-red-400 font-bold">
-                  🔥 Roasted {roastCount} time{roastCount > 1 ? "s" : ""}!
-                </span>
-              </motion.div>
-            )} */}
-
             {/* Chat Interface */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.3 }}
-              className="bg-gray-900/50 backdrop-blur-xl rounded-2xl p-6 mb-8 max-w-2xl mx-auto"
+              className="bg-gray-900/50 backdrop-blur-xl rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 max-w-2xl mx-auto"
             >
               {/* Conversation History */}
               <div
                 ref={chatContainerRef}
-                className="max-h-96 overflow-y-auto mb-4 space-y-4 scroll-smooth scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800/50 hover:scrollbar-thumb-purple-400"
+                className="max-h-64 md:max-h-96 overflow-y-auto mb-4 space-y-3 md:space-y-4 scroll-smooth scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800/50 hover:scrollbar-thumb-purple-400"
                 style={{
                   scrollbarWidth: "thin",
                   scrollbarColor: "#545067 rgba(31, 41, 55, 0.5)",
@@ -156,43 +147,34 @@ export default function ByteSection() {
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-start gap-4 ${
+                    className={`flex items-start gap-2 md:gap-4 ${
                       msg.role === "user" ? "flex-row-reverse" : ""
                     }`}
                   >
                     {msg.role === "byte" && (
                       <Bot
                         className="text-purple-400 flex-shrink-0"
-                        size={32}
+                        size={24}
                       />
                     )}
                     <div
                       className={`${
-                        msg.role === "user"
-                          ? "bg-purple-600"
-                          : // : msg.wasRoasted
-                            // ? "bg-red-900/50 border-2 border-red-500"
-                            "bg-gray-800"
-                      } rounded-2xl p-4 flex-1 text-left`}
+                        msg.role === "user" ? "bg-purple-600" : "bg-gray-800"
+                      } rounded-xl md:rounded-2xl p-3 md:p-4 flex-1 text-left`}
                     >
-                      <p className="text-gray-300 whitespace-pre-line">
+                      <p className="text-sm md:text-base text-gray-300 whitespace-pre-line">
                         {msg.text}
                       </p>
-                      {/* {msg.wasRoasted && (
-                        <span className="text-xs text-red-400 mt-2 block">
-                          🔥 You got roasted!
-                        </span>
-                      )} */}
                     </div>
                   </motion.div>
                 ))}
                 {isLoading && (
-                  <div className="flex items-start gap-4">
-                    <Bot className="text-purple-400 flex-shrink-0" size={32} />
-                    <div className="bg-gray-800 rounded-2xl p-4 flex-1">
+                  <div className="flex items-start gap-2 md:gap-4">
+                    <Bot className="text-purple-400 flex-shrink-0" size={24} />
+                    <div className="bg-gray-800 rounded-xl md:rounded-2xl p-3 md:p-4 flex-1">
                       <Loader2
                         className="animate-spin text-purple-400"
-                        size={24}
+                        size={20}
                       />
                     </div>
                   </div>
@@ -200,7 +182,7 @@ export default function ByteSection() {
               </div>
 
               {/* Input Form */}
-              <form onSubmit={handleSubmit} className="flex gap-3">
+              <form onSubmit={handleSubmit} className="flex gap-2 md:gap-3">
                 <input
                   type="text"
                   value={message}
@@ -208,7 +190,7 @@ export default function ByteSection() {
                   placeholder="Ask Byte about Abhishek..."
                   disabled={isLoading || !socket}
                   suppressHydrationWarning
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50"
                 />
 
                 <motion.button
@@ -217,14 +199,14 @@ export default function ByteSection() {
                   suppressHydrationWarning
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 md:px-8 py-3 md:py-4 rounded-lg md:rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
                 >
                   {isLoading ? (
-                    <Loader2 className="animate-spin" size={20} />
+                    <Loader2 className="animate-spin" size={18} />
                   ) : (
-                    <Send size={20} />
+                    <Send size={18} />
                   )}
-                  Send
+                  <span className="hidden sm:inline">Send</span>
                 </motion.button>
               </form>
 
@@ -240,7 +222,7 @@ export default function ByteSection() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.5 }}
-              className="text-sm text-gray-500"
+              className="text-xs md:text-sm text-gray-500 px-4"
             >
               💡 Pro tip: Byte has access to all my project details, tech stack,
               and achievements!
