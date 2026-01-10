@@ -96,7 +96,7 @@ export default function ByteSection() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="glass p-6 md:p-12 rounded-3xl md:rounded-[3rem] border-2 md:border-4 border-purple-500 relative overflow-hidden max-w-4xl mx-auto"
+          className="glass p-4 md:p-12 rounded-2xl md:rounded-[3rem] border-2 md:border-4 border-purple-500 relative overflow-hidden max-w-4xl mx-auto"
         >
           {/* Animated Glow Effect */}
           <motion.div
@@ -131,7 +131,7 @@ export default function ByteSection() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.3 }}
-              className="bg-gray-900/50 backdrop-blur-xl rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 max-w-2xl mx-auto"
+              className="bg-gray-900/50 backdrop-blur-xl rounded-xl md:rounded-2xl p-3 md:p-6 mb-6 md:mb-8 max-w-2xl mx-auto"
             >
               {/* Conversation History */}
               <div
@@ -182,15 +182,15 @@ export default function ByteSection() {
               </div>
 
               {/* Input Form */}
-              <form onSubmit={handleSubmit} className="flex gap-2 md:gap-3">
+              <form onSubmit={handleSubmit} className="flex gap-2">
                 <input
                   type="text"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Ask Byte about Abhishek..."
+                  placeholder="Ask Byte..."
                   disabled={isLoading || !socket}
                   suppressHydrationWarning
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg md:rounded-xl px-3 md:px-6 py-2.5 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50 min-w-0"
                 />
 
                 <motion.button
@@ -199,7 +199,7 @@ export default function ByteSection() {
                   suppressHydrationWarning
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 md:px-8 py-3 md:py-4 rounded-lg md:rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 px-3 md:px-8 py-2.5 md:py-4 rounded-lg md:rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base flex-shrink-0"
                 >
                   {isLoading ? (
                     <Loader2 className="animate-spin" size={18} />
