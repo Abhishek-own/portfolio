@@ -36,8 +36,8 @@ export default function Contact() {
     {
       icon: <Github size={32} />,
       label: "GitHub",
-      value: "@yourusername",
-      link: "https://github.com/yourusername",
+      value: "@Abhishek-own",
+      link: "https://github.com/Abhishek-own",
       gradient: "from-purple-500 via-pink-500 to-red-500",
       bg: "bg-gradient-to-br from-purple-500/20 to-pink-500/20",
       shadowColor: "shadow-purple-500/50",
@@ -45,8 +45,8 @@ export default function Contact() {
     {
       icon: <Linkedin size={32} />,
       label: "LinkedIn",
-      value: "/in/yourusername",
-      link: "https://linkedin.com/in/yourusername",
+      value: "Abhishek Mohapatra",
+      link: "https://www.linkedin.com/in/im-abhishekmohapatra",
       gradient: "from-blue-400 via-cyan-500 to-teal-500",
       bg: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
       shadowColor: "shadow-blue-500/50",
@@ -54,8 +54,8 @@ export default function Contact() {
     {
       icon: <Mail size={32} />,
       label: "Email",
-      value: "your.email@example.com",
-      link: "mailto:your.email@example.com",
+      value: "mohapatraabhishek183@gmail.com",
+      link: "mailto:mohapatraabhishek183@gmail.com",
       gradient: "from-orange-400 via-red-500 to-pink-500",
       bg: "bg-gradient-to-br from-orange-500/20 to-red-500/20",
       shadowColor: "shadow-red-500/50",
@@ -63,8 +63,8 @@ export default function Contact() {
     {
       icon: <MessageCircle size={32} />,
       label: "WhatsApp",
-      value: "+91 XXXXXXXXXX",
-      link: "https://wa.me/91XXXXXXXXXX",
+      value: "+91 8480200896",
+      link: "https://wa.me/918480200896",
       gradient: "from-green-400 via-emerald-500 to-teal-500",
       bg: "bg-gradient-to-br from-green-500/20 to-emerald-500/20",
       shadowColor: "shadow-green-500/50",
@@ -72,8 +72,8 @@ export default function Contact() {
     {
       icon: <Instagram size={32} />,
       label: "Instagram",
-      value: "@yourusername",
-      link: "https://instagram.com/yourusername",
+      value: "@_a_b_h_is_h_e_k_",
+      link: "https://instagram.com/_a_b_h_is_h_e_k_",
       gradient: "from-purple-500 via-pink-500 to-rose-500",
       bg: "bg-gradient-to-br from-purple-500/20 to-rose-500/20",
       shadowColor: "shadow-pink-500/50",
@@ -174,7 +174,7 @@ export default function Contact() {
             transition={{ delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
-            Got an epic project? Need a backend wizard?
+            Got an epic project? Looking for a full-stack problem solver?
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 font-semibold">
               Let's build something amazing together!
@@ -308,8 +308,8 @@ export default function Contact() {
           </motion.div>
 
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
-            © 2026 The Master Backend Sorcerer | Powered by NestJS, TypeScript,
-            and endless debugging sessions
+            © 2026 The Full-Stack Sorcerer | Powered by NestJS, NextJS, TypeScript,
+            and an unhealthy amount of debugging
           </p>
 
           {/* Decorative line */}

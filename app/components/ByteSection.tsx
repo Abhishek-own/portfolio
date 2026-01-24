@@ -16,7 +16,7 @@ export default function ByteSection() {
   >([
     {
       role: "byte",
-      text: "Hey there! I'm Byte, Abhishek's AI assistant. Ask me anything about the master's projects, skills, or experience. But stay on topic, or face my sarcasm! 😏",
+      text: "Hey, I’m Byte 🙋🏻‍♂️\nI can tell you about Abhishek’s skills, projects, and experience.\nYou’re free to ask about other things too, but I’m free to ignore them 😊",
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -119,12 +119,15 @@ export default function ByteSection() {
               Meet Byte - My AI Assistant
             </h2>
 
-            <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto px-2">
-              Byte is my custom AI assistant with one mission: Answer questions
-              about me and roast anyone who asks off-topic questions. It's
-              blessed with serving the greatest developer. Go ahead, ask Byte
-              anything about my work! (Or get roasted trying 😈)
-            </p>
+            <div className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto px-2 space-y-4">
+              <p>
+                Built to help you explore my work and skills, <strong>Byte</strong> is <span className="text-purple-400">fast</span>, <span className="text-pink-400">knowledgeable</span>, and has a bit of <span className="text-yellow-400">attitude</span>.
+              </p>
+              <p>
+                It provides quick insights, showcases my projects, and highlights my expertise in full-stack development, automation, and design.
+              </p>
+
+            </div>
 
             {/* Chat Interface */}
             <motion.div
@@ -147,9 +150,8 @@ export default function ByteSection() {
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-start gap-2 md:gap-4 ${
-                      msg.role === "user" ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-start gap-2 md:gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     {msg.role === "byte" && (
                       <Bot
@@ -158,9 +160,8 @@ export default function ByteSection() {
                       />
                     )}
                     <div
-                      className={`${
-                        msg.role === "user" ? "bg-purple-600" : "bg-gray-800"
-                      } rounded-xl md:rounded-2xl p-3 md:p-4 flex-1 text-left`}
+                      className={`${msg.role === "user" ? "bg-purple-600" : "bg-gray-800"
+                        } rounded-xl md:rounded-2xl p-3 md:p-4 flex-1 text-left`}
                     >
                       <p className="text-sm md:text-base text-gray-300 whitespace-pre-line">
                         {msg.text}

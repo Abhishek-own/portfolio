@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Code2, Layers, Rocket, Sparkles } from "lucide-react";
+import { Code2, Layers, Rocket, Sparkles, Database, Server, Braces, Globe, Cpu } from "lucide-react";
+import Image from "next/image";
 
 export default function About() {
   const ref = useRef(null);
@@ -72,21 +73,6 @@ export default function About() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const stats = [
-    { icon: "∞", label: "Lines of Code", color: "from-purple-500 to-pink-500" },
-    {
-      icon: "24/7",
-      label: "Production Uptime",
-      color: "from-pink-500 to-orange-500",
-    },
-    {
-      icon: "☕",
-      label: "Coffee Powered",
-      color: "from-orange-500 to-yellow-500",
-      isSpecial: true,
-    },
-  ];
 
   return (
     <section
@@ -185,6 +171,7 @@ export default function About() {
           <motion.h2
             className="text-4xl md:text-5xl lg:text-7xl font-black text-gradient inline-block"
             whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             About Me
           </motion.h2>
@@ -192,31 +179,30 @@ export default function About() {
             className="h-1 w-24 md:w-32 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"
             initial={{ width: 0 }}
             animate={
-              isInView ? { width: window.innerWidth < 768 ? 96 : 128 } : {}
+              isInView ? { width: typeof window !== 'undefined' && window.innerWidth < 768 ? 96 : 128 } : {}
             }
             transition={{ delay: 0.3, duration: 0.8 }}
           />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Text Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center max-w-7xl mx-auto">
+          {/* Left Column - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="space-y-4 md:space-y-6"
+            transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+            className="space-y-5 md:space-y-6"
           >
             {/* Card 1 - The Developer */}
             <motion.div
               onHoverStart={() => setHoveredCard(0)}
               onHoverEnd={() => setHoveredCard(null)}
-              whileHover={{ scale: 1.02 }}
-              className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group"
+              className="glass p-5 md:p-7 lg:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group transition-all duration-500 ease-out"
               style={{
                 boxShadow:
                   hoveredCard === 0
-                    ? "0 0 40px rgba(168, 85, 247, 0.4)"
-                    : "none",
+                    ? "0 0 40px rgba(168, 85, 247, 0.3)"
+                    : "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
               {/* Glowing border effect */}
@@ -225,9 +211,10 @@ export default function About() {
                 animate={{
                   background:
                     hoveredCard === 0
-                      ? "linear-gradient(90deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3), rgba(168, 85, 247, 0.3))"
+                      ? "linear-gradient(90deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.2))"
                       : "transparent",
                 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 style={{
                   padding: "2px",
                   WebkitMask:
@@ -237,52 +224,30 @@ export default function About() {
                 }}
               />
 
-              {/* Animated particles on hover */}
-              {hoveredCard === 0 && (
-                <>
-                  {[...Array(8)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 bg-purple-400 rounded-full"
-                      initial={{ x: "50%", y: "50%", opacity: 0 }}
-                      animate={{
-                        x: `${50 + Math.cos((i / 8) * Math.PI * 2) * 100}%`,
-                        y: `${50 + Math.sin((i / 8) * Math.PI * 2) * 100}%`,
-                        opacity: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        delay: i * 0.1,
-                      }}
-                    />
-                  ))}
-                </>
-              )}
-
               <div className="relative z-10">
-                <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                <div className="flex items-center gap-3 mb-4">
                   <motion.div
                     animate={{ rotate: hoveredCard === 0 ? 360 : 0 }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
                   >
-                    <Code2 className="text-purple-400" size={28} />
+                    <Code2 className="text-purple-400 w-6 h-6 md:w-7 md:h-7" />
                   </motion.div>
                   <h3 className="text-xl md:text-2xl font-bold">
                     The Developer
                   </h3>
-                  {hoveredCard === 0 && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring" }}
-                      className="hidden md:block"
-                    >
-                      <Sparkles className="text-yellow-400" size={20} />
-                    </motion.div>
-                  )}
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: hoveredCard === 0 ? 1 : 0,
+                      opacity: hoveredCard === 0 ? 1 : 0
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="ml-auto"
+                  >
+                    <Sparkles className="text-yellow-400 w-5 h-5" />
+                  </motion.div>
                 </div>
-                <div className="text-gray-300 text-sm md:text-lg leading-relaxed space-y-2 md:space-y-3">
+                <div className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed space-y-3">
                   <p>
                     Hey there! I'm Abhishek, a{" "}
                     <span className="text-purple-400 font-semibold">
@@ -301,14 +266,6 @@ export default function About() {
                     </span>
                     , and build frontends that users genuinely enjoy using.
                   </p>
-                  <p>
-                    From database optimization and real-time data pipelines to
-                    crafting seamless, responsive interfaces, I handle{" "}
-                    <span className="text-cyan-400 font-semibold">
-                      every layer
-                    </span>{" "}
-                    of modern web development.
-                  </p>
                 </div>
               </div>
             </motion.div>
@@ -317,13 +274,12 @@ export default function About() {
             <motion.div
               onHoverStart={() => setHoveredCard(1)}
               onHoverEnd={() => setHoveredCard(null)}
-              whileHover={{ scale: 1.02 }}
-              className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group"
+              className="glass p-5 md:p-7 lg:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group transition-all duration-500 ease-out"
               style={{
                 boxShadow:
                   hoveredCard === 1
-                    ? "0 0 40px rgba(59, 130, 246, 0.4)"
-                    : "none",
+                    ? "0 0 40px rgba(59, 130, 246, 0.3)"
+                    : "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
               <motion.div
@@ -331,9 +287,10 @@ export default function About() {
                 animate={{
                   background:
                     hoveredCard === 1
-                      ? "linear-gradient(90deg, rgba(59, 130, 246, 0.3), rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.3))"
+                      ? "linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2))"
                       : "transparent",
                 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 style={{
                   padding: "2px",
                   WebkitMask:
@@ -343,56 +300,34 @@ export default function About() {
                 }}
               />
 
-              {hoveredCard === 1 && (
-                <>
-                  {[0, 120, 240].map((angle, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute top-1/2 left-1/2 w-3 md:w-4 h-3 md:h-4 bg-blue-400 rounded-full blur-sm"
-                      animate={{
-                        rotate: 360,
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 3,
-                        ease: "linear",
-                        delay: i * 0.3,
-                      }}
-                      style={{
-                        transformOrigin: "-30px 0",
-                        transform: `rotate(${angle}deg)`,
-                      }}
-                    />
-                  ))}
-                </>
-              )}
-
               <div className="relative z-10">
-                <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                <div className="flex items-center gap-3 mb-4">
                   <motion.div
                     animate={{
-                      y: hoveredCard === 1 ? [-3, 3, -3] : 0,
+                      y: hoveredCard === 1 ? [-2, 2, -2] : 0,
                     }}
                     transition={{
                       repeat: hoveredCard === 1 ? Infinity : 0,
-                      duration: 1.5,
+                      duration: 2,
+                      ease: "easeInOut",
                     }}
                   >
-                    <Layers className="text-blue-400" size={28} />
+                    <Layers className="text-blue-400 w-6 h-6 md:w-7 md:h-7" />
                   </motion.div>
                   <h3 className="text-xl md:text-2xl font-bold">The Journey</h3>
-                  {hoveredCard === 1 && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring" }}
-                      className="hidden md:block"
-                    >
-                      <Sparkles className="text-yellow-400" size={20} />
-                    </motion.div>
-                  )}
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: hoveredCard === 1 ? 1 : 0,
+                      opacity: hoveredCard === 1 ? 1 : 0
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="ml-auto"
+                  >
+                    <Sparkles className="text-yellow-400 w-5 h-5" />
+                  </motion.div>
                 </div>
-                <div className="text-gray-300 text-sm md:text-lg leading-relaxed space-y-2 md:space-y-3">
+                <div className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed space-y-3">
                   <p>
                     With expertise spanning{" "}
                     <span className="text-blue-400 font-semibold">
@@ -422,18 +357,8 @@ export default function About() {
                     <span className="text-orange-400 font-semibold">
                       {" "}
                       real-time systems
-                    </span>
-                    , complex database architectures, and modern,
-                    high-performance frontend applications.
-                  </p>
-                  <p>
-                    Whether it's REST APIs, WebSockets, responsive UIs, or data
-                    scraping —
-                    <span className="text-yellow-400 font-semibold">
-                      {" "}
-                      I make it work
-                    </span>
-                    .
+                    </span>{" "}
+                    and modern, high-performance applications.
                   </p>
                 </div>
               </div>
@@ -443,13 +368,12 @@ export default function About() {
             <motion.div
               onHoverStart={() => setHoveredCard(2)}
               onHoverEnd={() => setHoveredCard(null)}
-              whileHover={{ scale: 1.02 }}
-              className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group"
+              className="glass p-5 md:p-7 lg:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group transition-all duration-500 ease-out"
               style={{
                 boxShadow:
                   hoveredCard === 2
-                    ? "0 0 40px rgba(236, 72, 153, 0.4)"
-                    : "none",
+                    ? "0 0 40px rgba(236, 72, 153, 0.3)"
+                    : "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
               <motion.div
@@ -457,9 +381,10 @@ export default function About() {
                 animate={{
                   background:
                     hoveredCard === 2
-                      ? "linear-gradient(90deg, rgba(236, 72, 153, 0.3), rgba(251, 146, 60, 0.3), rgba(236, 72, 153, 0.3))"
+                      ? "linear-gradient(90deg, rgba(236, 72, 153, 0.2), rgba(251, 146, 60, 0.2), rgba(236, 72, 153, 0.2))"
                       : "transparent",
                 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 style={{
                   padding: "2px",
                   WebkitMask:
@@ -469,47 +394,36 @@ export default function About() {
                 }}
               />
 
-              {hoveredCard === 2 && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-pink-500/10 via-orange-500/10 to-pink-500/10 rounded-2xl md:rounded-3xl"
-                  animate={{
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 2,
-                  }}
-                />
-              )}
-
               <div className="relative z-10">
-                <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                <div className="flex items-center gap-3 mb-4">
                   <motion.div
                     animate={{
-                      scale: hoveredCard === 2 ? [1, 1.2, 1] : 1,
+                      scale: hoveredCard === 2 ? [1, 1.1, 1] : 1,
                     }}
                     transition={{
                       repeat: hoveredCard === 2 ? Infinity : 0,
-                      duration: 1,
+                      duration: 1.5,
+                      ease: "easeInOut",
                     }}
                   >
-                    <Rocket className="text-pink-400" size={28} />
+                    <Rocket className="text-pink-400 w-6 h-6 md:w-7 md:h-7" />
                   </motion.div>
                   <h3 className="text-xl md:text-2xl font-bold">
                     The Philosophy
                   </h3>
-                  {hoveredCard === 2 && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring" }}
-                      className="hidden md:block"
-                    >
-                      <Sparkles className="text-yellow-400" size={20} />
-                    </motion.div>
-                  )}
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: hoveredCard === 2 ? 1 : 0,
+                      opacity: hoveredCard === 2 ? 1 : 0
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="ml-auto"
+                  >
+                    <Sparkles className="text-yellow-400 w-5 h-5" />
+                  </motion.div>
                 </div>
-                <div className="text-gray-300 text-sm md:text-lg leading-relaxed space-y-2 md:space-y-3">
+                <div className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed space-y-3">
                   <p>
                     I believe in{" "}
                     <span className="text-green-400 font-semibold">
@@ -524,154 +438,111 @@ export default function About() {
                   </p>
                   <p>
                     When I'm not debugging production issues or optimizing
-                    queries, you'll find me exploring new technologies, building
-                    side projects, or crafting the perfect cup of coffee. ☕
+                    queries, you'll find me exploring new technologies or crafting the perfect cup of coffee. ☕
                   </p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Stats Cards with DIABOLIC COFFEE */}
+          {/* Right Column - Profile Image (centered with Journey card) */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.4 }}
-            className="space-y-4 md:space-y-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+            className="flex justify-center items-center lg:sticky lg:top-32"
           >
-            {stats.map((stat, index) => (
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="relative group w-full max-w-sm"
+            >
+              {/* Animated border rings */}
               <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.6 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="glass p-6 md:p-8 rounded-2xl md:rounded-3xl text-center cursor-pointer group relative overflow-hidden"
-              >
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                className="absolute -inset-4 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 opacity-60 blur-2xl"
+                animate={{
+                  rotate: 360,
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 10,
+                  ease: "linear",
+                }}
+              />
+
+              <motion.div
+                className="absolute -inset-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-40"
+                animate={{
+                  rotate: -360,
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 8,
+                  ease: "linear",
+                }}
+              />
+
+              {/* Image container */}
+              <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-white/10 backdrop-blur-sm mx-auto">
+                <Image
+                  src="/profile.jpeg"
+                  alt="Abhishek"
+                  fill
+                  className="object-cover"
+                  priority
                 />
 
-                {/* DIABOLIC Coffee */}
-                {stat.isSpecial ? (
-                  <div className="relative">
-                    <motion.div
-                      className={`text-5xl md:text-6xl font-black mb-3 md:mb-4 relative z-10 inline-block`}
-                      whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0] }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {stat.icon}
+                {/* Gradient overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                />
+              </div>
 
-                      {/* Steam effects */}
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute -top-8 left-1/2 -translate-x-1/2"
-                          style={{
-                            fontSize: "2rem",
-                            filter: "blur(2px)",
-                            left: `${50 + (i - 1) * 15}%`,
-                          }}
-                          animate={{
-                            y: [-10, -40],
-                            opacity: [0.6, 0],
-                            scale: [0.5, 1.2],
-                          }}
-                          transition={{
-                            repeat: Infinity,
-                            duration: 2,
-                            delay: i * 0.4,
-                            ease: "easeOut",
-                          }}
-                        >
-                          <span
-                            className={`bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
-                          >
-                            ~
-                          </span>
-                        </motion.div>
-                      ))}
-
-                      {/* Coffee glow pulse */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full blur-xl"
-                        style={{
-                          background: `radial-gradient(circle, rgba(251, 146, 60, 0.4), transparent)`,
-                        }}
-                        animate={{
-                          scale: [1, 1.3, 1],
-                          opacity: [0.3, 0.6, 0.3],
-                        }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 2,
-                        }}
-                      />
-
-                      {/* Sparkles around coffee */}
-                      {[...Array(6)].map((_, i) => {
-                        const angle = (i / 6) * 360;
-                        return (
-                          <motion.div
-                            key={`sparkle-${i}`}
-                            className="absolute top-1/2 left-1/2"
-                            style={{
-                              transform: `rotate(${angle}deg) translateX(40px)`,
-                            }}
-                            animate={{
-                              scale: [0, 1, 0],
-                              opacity: [0, 1, 0],
-                            }}
-                            transition={{
-                              repeat: Infinity,
-                              duration: 2,
-                              delay: i * 0.2,
-                            }}
-                          >
-                            <span className="text-yellow-400 text-xs">✨</span>
-                          </motion.div>
-                        );
-                      })}
-                    </motion.div>
-                  </div>
-                ) : (
-                  <motion.div
-                    className={`text-5xl md:text-6xl font-black mb-3 md:mb-4 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent relative z-10`}
-                    whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {stat.icon}
-                  </motion.div>
-                )}
-
-                {/* Orbiting particles on hover */}
-                <div className="absolute inset-0 pointer-events-none">
-                  {[0, 90, 180, 270].map((angle, i) => (
-                    <motion.div
-                      key={i}
-                      className={`absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-100`}
-                      animate={{
-                        rotate: 360,
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        ease: "linear",
-                        delay: i * 0.1,
-                      }}
-                      style={{
-                        transformOrigin: "0 0",
-                        transform: `rotate(${angle}deg) translateX(50px)`,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <p className="text-gray-400 text-base md:text-lg group-hover:text-white transition-colors relative z-10">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
+              {/* Floating tech icons */}
+       {/* Floating tech icons */}
+{[
+  { 
+    icon: <Globe className="text-pink-400" size={32} />, 
+    delay: 0, 
+    position: "top-4 right-4 md:top-8 md:right-8" 
+  },
+  { 
+    icon: <Database className="text-cyan-400" size={32} />, 
+    delay: 0.5, 
+    position: "bottom-4 left-4 md:bottom-8 md:left-8" 
+  },
+  { 
+    icon: <Cpu className="text-purple-400" size={32} />, 
+    delay: 1, 
+    position: "top-4 left-4 md:top-8 md:left-8" 
+  },
+  { 
+    icon: <Server className="text-green-400" size={32} />, 
+    delay: 1.5, 
+    position: "bottom-4 right-4 md:bottom-8 md:right-8" 
+  }
+].map((item, i) => (
+  <motion.div
+    key={i}
+    className={`absolute ${item.position}`}
+    animate={{
+      y: [-8, 8, -8],
+      rotate: [0, 8, -8, 0],
+    }}
+    transition={{
+      repeat: Infinity,
+      duration: 3.5,
+      delay: item.delay,
+      ease: "easeInOut",
+    }}
+  >
+    {item.icon}
+  </motion.div>
+))}
+            </motion.div>
           </motion.div>
         </div>
       </div>
