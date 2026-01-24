@@ -233,17 +233,17 @@ export default function Hero() {
           animate={{ 
             scale: introComplete ? 0.3 : 1,
             opacity: introComplete ? 0 : 1,
-            x: introComplete ? "-45vw" : 0,
-            y: introComplete ? "-45vh" : 0,
+            x: introComplete ? (typeof window !== 'undefined' && window.innerWidth < 768 ? "-42vw" : "-45vw") : 0,
+            y: introComplete ? (typeof window !== 'undefined' && window.innerWidth < 768 ? "-48vh" : "-45vh") : 0,
           }}
           transition={{ 
             duration: 0.8,
             ease: "easeInOut"
           }}
-          className="text-8xl md:text-9xl font-black"
+          className="text-6xl sm:text-7xl md:text-9xl px-4"
           style={{ 
             fontFamily: "'Brush Script MT', cursive",
-            fontWeight: 'normal' // Brush Script looks better without bold
+            fontWeight: 'normal'
           }}
         >
           <span
@@ -306,13 +306,13 @@ export default function Hero() {
       )}
 
       <div className="container mx-auto px-6 text-center relative z-10">
-        {/* Floating tech badges - FIXED positioning */}
+        {/* Floating tech badges - FIXED positioning - HIDDEN ON MOBILE */}
         {showContent && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none hidden md:block"
           >
           {techStack.map((tech, i) => (
             <motion.div
@@ -349,13 +349,13 @@ export default function Hero() {
         </motion.div>
         )}
 
-        {/* Main power orb - ENHANCED */}
+        {/* Main power orb - ENHANCED - Smaller on mobile */}
         {showContent && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", duration: 1.5 }}
-          className="relative inline-block mb-12"
+          className="relative inline-block mb-8 md:mb-12"
         >
           {/* Pulsing rings */}
           {[0, 1, 2].map((i) => (
@@ -371,7 +371,7 @@ export default function Hero() {
                 delay: i * 1.3,
                 ease: "easeOut",
               }}
-              className="absolute inset-0 w-56 h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500"
+              className="absolute inset-0 w-40 h-40 md:w-56 md:h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500"
             />
           ))}
 
@@ -380,15 +380,15 @@ export default function Hero() {
             animate={{
               rotate: 360,
               boxShadow: [
-                "0 0 80px 30px #a855f7, 0 0 120px 50px #ec4899",
-                "0 0 120px 50px #ec4899, 0 0 80px 30px #a855f7",
+                "0 0 60px 20px #a855f7, 0 0 100px 40px #ec4899",
+                "0 0 100px 40px #ec4899, 0 0 60px 20px #a855f7",
               ],
             }}
             transition={{
               rotate: { repeat: Infinity, duration: 25, ease: "linear" },
               boxShadow: { repeat: Infinity, duration: 3 },
             }}
-            className="relative w-56 h-56 rounded-full"
+            className="relative w-40 h-40 md:w-56 md:h-56 rounded-full"
             style={{
               background: "radial-gradient(circle, #ec4899 0%, #a855f7 50%, #8b5cf6 100%)",
             }}
@@ -403,14 +403,14 @@ export default function Hero() {
                 repeat: Infinity,
                 duration: 2.5,
               }}
-              className="absolute inset-10 rounded-full bg-white blur-3xl"
+              className="absolute inset-6 md:inset-10 rounded-full bg-white blur-3xl"
             />
 
             {/* Spinning energy ring */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-              className="absolute inset-6 rounded-full border-4 border-white/30 border-t-white"
+              className="absolute inset-4 md:inset-6 rounded-full border-2 md:border-4 border-white/30 border-t-white"
             />
 
             {/* Energy core */}
@@ -424,7 +424,7 @@ export default function Hero() {
                   repeat: Infinity,
                   duration: 4,
                 }}
-                className="w-20 h-20"
+                className="w-14 h-14 md:w-20 md:h-20"
               >
                 <Sparkles className="w-full h-full text-white drop-shadow-2xl" />
               </motion.div>
@@ -446,7 +446,7 @@ export default function Hero() {
                 className="absolute top-1/2 left-1/2"
                 style={{
                   transformOrigin: "0 0",
-                  transform: `rotate(${i * 45}deg) translateX(110px)`,
+                  transform: `rotate(${i * 45}deg) translateX(${typeof window !== 'undefined' && window.innerWidth < 768 ? '75px' : '110px'})`,
                 }}
               >
                 <motion.div
@@ -459,7 +459,7 @@ export default function Hero() {
                     duration: 2,
                     delay: i * 0.1,
                   }}
-                  className="w-3 h-3 rounded-full"
+                  className="w-2 h-2 md:w-3 md:h-3 rounded-full"
                   style={{
                     backgroundColor: `hsl(${(i * 45) % 360}, 80%, 65%)`,
                     boxShadow: `0 0 15px hsl(${(i * 45) % 360}, 80%, 65%)`,
@@ -476,20 +476,20 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 0.15 }}
-                className="absolute inset-0 w-56 h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-red-500 blur-sm translate-x-3"
+                className="absolute inset-0 w-40 h-40 md:w-56 md:h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-red-500 blur-sm translate-x-3"
               />
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 0.15 }}
-                className="absolute inset-0 w-56 h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-cyan-400 blur-sm -translate-x-3"
+                className="absolute inset-0 w-40 h-40 md:w-56 md:h-56 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-cyan-400 blur-sm -translate-x-3"
               />
             </>
           )}
         </motion.div>
         )}
 
-        {/* Holographic title */}
+        {/* Holographic title - Smaller on mobile */}
         {showContent && (
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -498,7 +498,7 @@ export default function Hero() {
             y: 0,
           }}
           transition={{ delay: 0.5 }}
-          className="relative text-7xl md:text-9xl font-black mb-8"
+          className="relative text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black mb-6 md:mb-8 px-4"
         >
           <motion.span
             animate={{
@@ -535,51 +535,51 @@ export default function Hero() {
         </motion.h1>
         )}
 
-        {/* Subtitle with rotating sparkles */}
+        {/* Subtitle with rotating sparkles - Smaller on mobile */}
         {showContent && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="flex items-center justify-center gap-3 text-xl md:text-2xl mb-8"
+          className="flex items-center justify-center gap-2 md:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 px-4"
         >
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
           >
-            <Sparkles className="text-yellow-400 w-6 h-6" />
+            <Sparkles className="text-yellow-400 w-5 h-5 md:w-6 md:h-6" />
           </motion.div>
-          <span className="text-gray-300 font-semibold">
+          <span className="text-gray-300 font-semibold text-center">
             Full-Stack Developer & Data Enthusiast
           </span>
           <motion.div
             animate={{ rotate: -360 }}
             transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
           >
-            <Sparkles className="text-yellow-400 w-6 h-6" />
+            <Sparkles className="text-yellow-400 w-5 h-5 md:w-6 md:h-6" />
           </motion.div>
         </motion.div>
         )}
 
-        {/* Description */}
+        {/* Description - Better mobile spacing */}
         {showContent && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed px-6"
         >
           Full-Stack Developer who turns caffeine into code. From web applications to data automation - I build what's needed. 🚀
         </motion.p>
         )}
 
-        {/* CTA Buttons with shimmer */}
+        {/* CTA Buttons with shimmer - Better mobile layout */}
         {showContent && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-6"
         >
           <motion.a
             href="#projects"
@@ -588,7 +588,7 @@ export default function Hero() {
               boxShadow: "0 0 60px rgba(168, 85, 247, 0.9), 0 0 100px rgba(236, 72, 153, 0.5)",
             }}
             whileTap={{ scale: 0.98 }}
-            className="relative px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-lg overflow-hidden group"
+            className="relative px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-base md:text-lg overflow-hidden group w-full sm:w-auto"
           >
             <motion.div
               animate={{
@@ -612,7 +612,7 @@ export default function Hero() {
               boxShadow: "0 0 40px rgba(236, 72, 153, 0.6)",
             }}
             whileTap={{ scale: 0.98 }}
-            className="px-10 py-4 backdrop-blur-xl bg-white/5 rounded-full font-bold text-lg border-2 border-purple-500 transition-all"
+            className="px-8 md:px-10 py-3 md:py-4 backdrop-blur-xl bg-white/5 rounded-full font-bold text-base md:text-lg border-2 border-purple-500 transition-all w-full sm:w-auto"
           >
             Talk to Byte AI 🤖
           </motion.a>
