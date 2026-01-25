@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Abhishek - Backend Sorcerer",
+  title: "Abhishek (working on it)",
   description: "Full-Stack Backend Developer | NestJS & PostgreSQL Expert",
 };
 
