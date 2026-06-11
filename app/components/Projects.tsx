@@ -1,144 +1,172 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { ExternalLink, Github, Sparkles } from "lucide-react";
+import { useState } from "react";
+
+interface ProjectCardProps {
+  src: string;
+  alt: string;
+  label: string;
+  title: string;
+  className?: string;
+}
+
+function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProps) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl glass-card cursor-pointer ${className}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        style={{
+          filter: hovered ? "grayscale(0%)" : "grayscale(100%)",
+          transform: hovered ? "scale(1.05)" : "scale(1)",
+          transition: "filter 0.3s ease-out, transform 0.3s ease-out",
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 z-10" />
+      <div className="absolute bottom-0 left-0 p-6 z-20">
+        <span
+          className="text-primary text-[10px] tracking-widest mb-2 block uppercase font-bold"
+          style={{ fontFamily: "var(--font-space-grotesk)" }}
+        >
+          {label}
+        </span>
+        <h3
+          className="text-lg md:text-xl font-bold text-starlight-white"
+          style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+        >
+          {title}
+        </h3>
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
-  const projects = [
-    {
-      icon: "🚜",
-      title: "HolaTractor",
-      description:
-        "Full-stack AgriTech e-commerce platform enabling agricultural machinery booking. Built with multi-role authentication (farmers, owners, dealers, operators), real-time notifications, dynamic pricing, geo-location search, and payment integration.",
-      tags: [
-        "NestJS",
-        "PostgreSQL",
-        "Prisma ORM",
-        "Firebase",
-        "Socket.io",
-        "JWT",
-      ],
-      featured: true,
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      icon: "🤖",
-      title: "Byte AI",
-      description:
-        "An AI assistant with personality! Byte knows everything about me and has one job: answering questions about the master and roasting anyone who dares to ask off-topic questions. Built as a fun experiment in AI customization.",
-      tags: ["AI/ML", "NLP", "APIs", "OpenAI"],
-      featured: false,
-      liveUrl: "#byte",
-      githubUrl: "#",
-    },
-    {
-      icon: "🔌",
-      title: "RESTful API Architecture",
-      description:
-        "Enterprise-grade API design with proper authentication, rate limiting, error handling, and documentation. Built scalable microservices that handle thousands of requests without breaking a sweat.",
-      tags: ["REST APIs", "TypeScript", "Docker", "Swagger"],
-      featured: false,
-      liveUrl: "#",
-      githubUrl: "#",
-    },
+  const stats = [
+    { value: "03+", label: "Years" },
+    { value: "25+", label: "Projects" },
+    { value: "10+", label: "Technologies" },
   ];
 
   return (
-    <section id="projects" className="min-h-screen py-20 relative" ref={ref}>
-      <div className="container mx-auto px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-5xl md:text-7xl font-black text-center mb-16 text-gradient"
-        >
-          Epic Projects
-        </motion.h2>
+    <section id="projects" className="py-16 bg-background">
+      <div className="max-w-container-max mx-auto px-6 md:px-16">
+        {/* Header */}
+        <div className="flex justify-between items-end mb-10">
+          <h2
+            className="text-3xl md:text-5xl font-bold text-starlight-white"
+            style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+          >
+            Featured Projects
+          </h2>
+          <a
+            href="https://github.com/Abhishek-own"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:text-white transition-colors text-[10px] tracking-wider text-right"
+            style={{ fontFamily: "var(--font-space-grotesk)", letterSpacing: "0.1em" }}
+          >
+            VIEW ALL<br className="md:hidden" /> PROJECTS (12)
+          </a>
+        </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + index * 0.1 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className={`glass p-8 rounded-3xl relative overflow-hidden group ${
-                project.featured ? "border-2 border-pink-500" : ""
-              }`}
-            >
-              {/* Featured Badge */}
-              {project.featured && (
-                <motion.div
-                  initial={{ x: 100 }}
-                  animate={{ x: 0 }}
-                  className="absolute top-4 right-4 bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2"
-                >
-                  <Sparkles size={16} />
-                  FEATURED
-                </motion.div>
-              )}
+        {/* 
+          Layout Strategy:
+          - Mobile: Large card → two small cards → stats → quote (all stacked)
+          - Desktop: Left col (large card + stats + quote) | Right col (two small cards spanning both rows)
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
 
-              {/* Icon */}
-              <motion.div
-                className="text-7xl mb-4"
-                whileHover={{ scale: 1.2, rotate: 10 }}
-              >
-                {project.icon}
-              </motion.div>
+          {/* [MOBILE: order 1] [DESKTOP: col 1-8, row 1] Large card */}
+          <div className="md:col-span-8 order-1">
+            <ProjectCard
+              className="aspect-[16/9]"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJCKtPAPf8Gfb_Zj7QrFDx8rdI5gnBJXc82g7fGb28QovDDOxTgkHsR-yqPqmEjHlwVoXiSGWKv6w0zR2Ucu1gK4Egvzgbd8xx2knPSPILUkoP1jovjXhcDDWl2RaFRecyF84k-CAFsU58jNf6tkCoWOlqUgSFN2NlL2IfiB8kMup350a1Xhl6vh3pAcC4_QMtKiVz15fuciE6C_QzZiGis1IAh_MNICzROg2mHYynegc3XYEf66LAO26WEYqaXsunF5IPpuY_l2uY"
+              alt="Agritech Platform & Business ERP"
+              label="01 / WEBGL / 2024"
+              title="Agritech Platform & Business ERP"
+            />
+          </div>
 
-              {/* Title */}
-              <h3 className="text-2xl font-bold mb-3 group-hover:text-gradient transition-all">
-                {project.title}
-              </h3>
+          {/* [MOBILE: order 2] [DESKTOP: col 9-12, rows 1-2] Two small cards stacked */}
+          <div className="md:col-span-4 md:row-span-2 order-2 flex flex-col gap-6 md:gap-8">
+            <ProjectCard
+              className="flex-1 aspect-square"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdM0VEnSNiwMPdnah0O-WiENq7PbcOh2QHsNQS6rTHsl3k6PMgeu_YCRhl5PwLR1G-T2n2uiuMAPQF4wv4SjWpznbgTD7_hFmr-_vFv7wjNw00viJhJi2JSl602W2yTffuLjjdmjRVUuMK3yvJXDlccfOjRsejcocV7LWAAQWPHDna0IDqDUia_DxASy189ZfBT_lZdZtP0URYpNzn6sjg-B-VhEdLfUKHNhYUiEnqKDoDKv-YfxKoT4SPdTmpjJ28j6BRbY2jnDex"
+              alt="SaaS Dashboard"
+              label="02 / FULLSTACK / 2024"
+              title="SaaS Dashboard"
+            />
+            <ProjectCard
+              className="flex-1 aspect-square"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5DNdfLAKQ-4Myb3S4MyNXTgJHi5ff6GpNdGi6_lexH5SEjNwq467OXyxu_CologgJZq2Ba7Hw8KQMjS_LqHZwpwVs1k8Rfz_6GNV0HxhzB6-XQc1BDwRq5GarJlvHHzq8r0gTBeem9HsP-RTQSEQGrPKH3Sg7IP4N0fGWrRbC95wAVA_bak_xyLMXUJUlRjZguW9QZAGqUK-v5VyMw_4ccoeNG2WBzt2ajj7ReyBWv3NZTFzjNhH91qk64CWLPIpsPjKQvQhhZTZi"
+              alt="AI Chatbot & Automation"
+              label="03 / AI SYSTEM / 2025"
+              title="AI Chatbot & Automation"
+            />
+          </div>
 
-              {/* Description */}
-              <p className="text-gray-400 mb-6 leading-relaxed">
-                {project.description}
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map((tag) => (
+          {/* [MOBILE: order 3] [DESKTOP: col 1-8, row 2] Stats + Quote */}
+          <div className="md:col-span-8 order-3 flex flex-col gap-6">
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-glass-edge/30">
+              {stats.map((stat, i) => (
+                <div key={i} className="flex flex-col gap-1">
                   <span
-                    key={tag}
-                    className="px-3 py-1 bg-purple-500/20 border border-purple-500/50 rounded-full text-sm text-purple-300"
+                    className="text-3xl md:text-5xl font-bold text-primary"
+                    style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
                   >
-                    {tag}
+                    {stat.value}
                   </span>
-                ))}
-              </div>
+                  <span
+                    className="text-[10px] md:text-xs text-on-surface-variant tracking-widest uppercase font-bold"
+                    style={{ fontFamily: "var(--font-space-grotesk)" }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
 
-              {/* Links */}
-              <div className="flex gap-4">
-                <motion.a
-                  href={project.liveUrl}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 py-3 rounded-xl font-semibold text-center flex items-center justify-center gap-2"
-                >
-                  <ExternalLink size={18} />
-                  Live Demo
-                </motion.a>
-                <motion.a
-                  href={project.githubUrl}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 glass rounded-xl flex items-center justify-center"
-                >
-                  <Github size={20} />
-                </motion.a>
-              </div>
+            {/* Quote */}
+            <blockquote className="space-y-0.5">
+              <p
+                className="text-xl md:text-3xl font-bold text-primary italic"
+                style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+              >
+                The goal is simple:
+              </p>
+              <p
+                className="text-xl md:text-3xl font-bold text-starlight-white/80 italic"
+                style={{ fontFamily: "var(--font-epilogue)", fontWeight: 700 }}
+              >
+                Better than yesterday.
+              </p>
+              <p
+                className="text-xl md:text-3xl font-bold text-starlight-white/80 italic"
+                style={{ fontFamily: "var(--font-epilogue)", fontWeight: 700 }}
+              >
+                Every. Single. Day.
+              </p>
+            </blockquote>
+          </div>
 
-              {/* Hover Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-pink-600/10 to-purple-600/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-            </motion.div>
-          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <span
+            className="text-xs text-outline opacity-50 tracking-widest uppercase"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            Made with love and coffee
+          </span>
         </div>
       </div>
     </section>

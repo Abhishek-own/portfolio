@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Epilogue, Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const epilogue = Epilogue({ subsets: ["latin"], variable: "--font-epilogue", weight: ["700", "800", "900"] });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
 
 export const metadata: Metadata = {
-  title: "Abhishek (working on it)",
-  description: "Full-Stack Backend Developer | NestJS & PostgreSQL Expert",
+  title: "Abhishek Mohapatra | Portfolio",
+  description: "Designer & Developer crafting immersive digital ecosystems. Powered by NestJS, Next.js, and TypeScript.",
 };
 
 export default function RootLayout({
@@ -16,11 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${epilogue.variable} ${manrope.variable} ${spaceGrotesk.variable} scroll-smooth`}>
+      <body className="bg-background text-on-surface antialiased font-body-md text-body-md">
         <Navbar />
         {children}
       </body>
     </html>
   );
 }
+

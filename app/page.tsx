@@ -1,21 +1,18 @@
-import ParticlesBackground from "./components/ParticlesBackground";
 import Hero from "./components/Hero";
-import About from "./components/About";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import ByteSection from "./components/ByteSection";
-import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <main className="relative">
-      <ParticlesBackground />
       <Hero />
-      <About />
       <Projects />
       <Skills />
       <ByteSection />
-      <Contact />
+      <Footer />
     </main>
   );
 }
+

@@ -1,61 +1,88 @@
 @import "tailwindcss";
 
-@layer base {
-  body {
-    background-color: rgb(3 7 18);
-    color: white;
-    overflow-x: hidden;
+@theme inline {
+  --color-inverse-primary: #8c5000;
+  --color-on-tertiary-fixed: #1a1b1f;
+  --color-primary-fixed-dim: #ffb874;
+  --color-outline: #a38d7a;
+  --color-secondary-fixed-dim: #f1c100;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-error: #ffb4ab;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #3a3939;
+  --color-surface-container-highest: #353534;
+  --color-secondary-fixed: #ffe08b;
+  --color-tertiary-fixed: #e3e2e7;
+  --color-error-container: #93000a;
+  --color-surface-variant: #353534;
+  --color-on-surface: #e5e2e1;
+  --color-primary: #ffbd7f;
+  --color-on-surface-variant: #dbc2ad;
+  --color-surface-container: #201f1f;
+  --color-on-tertiary: #2f3034;
+  --color-on-secondary-container: #6e5700;
+  --color-on-background: #e5e2e1;
+  --color-on-secondary-fixed: #241a00;
+  --color-surface-container-low: #1c1b1b;
+  --color-outline-variant: #554334;
+  --color-on-secondary-fixed-variant: #584400;
+  --color-on-tertiary-fixed-variant: #46464b;
+  --color-tertiary-container: #afaeb3;
+  --color-on-error: #690005;
+  --color-inverse-on-surface: #313030;
+  --color-secondary-container: #fecb00;
+  --color-tertiary-fixed-dim: #c6c6cb;
+  --color-surface-tint: #ffb874;
+  --color-primary-container: #ff9500;
+  --color-on-tertiary-container: #414246;
+  --color-on-primary-container: #643700;
+  --color-on-primary-fixed-variant: #6a3b00;
+  --color-on-primary: #4b2800;
+  --color-secondary: #ffecc0;
+  --color-surface-container-high: #2a2a2a;
+  --color-tertiary: #cac9cf;
+  --color-primary-fixed: #ffdcbf;
+  --color-surface: #131313;
+  --color-inverse-surface: #e5e2e1;
+  --color-on-error-container: #ffdad6;
+  --color-on-primary-fixed: #2d1600;
+  --color-background: #131313;
+  --color-on-secondary: #3d2f00;
+  --color-glass-edge: rgba(255, 255, 255, 0.12);
+  --color-cyber-cyan: #00f5ff;
+  --color-deep-space: #0a0a0a;
+  --color-starlight-white: #f8fafc;
+
+  --font-display-lg: var(--font-epilogue);
+  --font-headline-lg: var(--font-epilogue);
+  --font-body-md: var(--font-manrope);
+  --font-label-caps: var(--font-space-grotesk);
+
+  --animate-drift: drift 15s infinite alternate ease-in-out;
+
+  @keyframes drift {
+    from { transform: translate(-10%, -10%) scale(1); }
+    to { transform: translate(10%, 10%) scale(1.1); }
   }
 }
 
-@layer utilities {
-  .text-gradient {
-    background: linear-gradient(
-      to right,
-      rgb(192 132 252),
-      rgb(236 72 153),
-      rgb(250 204 21)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .glow {
-    box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
-  }
+body {
+  background-color: #131313;
+  color: #e5e2e1;
+  overflow-x: hidden;
 }
 
-/* Custom animations */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hero-gradient {
+  background: linear-gradient(0deg, rgba(19,19,19,1) 0%, rgba(19,19,19,0.4) 40%, rgba(19,19,19,0) 100%);
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-rotate {
-  animation: rotate 20s linear infinite;
+.floating-orb {
+  filter: blur(60px);
+  animation: drift 15s infinite alternate ease-in-out;
 }
