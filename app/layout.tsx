@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Epilogue, Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
 
 const epilogue = Epilogue({ subsets: ["latin"], variable: "--font-epilogue", weight: ["700", "800", "900"] });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
@@ -20,7 +19,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${epilogue.variable} ${manrope.variable} ${spaceGrotesk.variable} scroll-smooth`}>
       <body className="bg-background text-on-surface antialiased font-body-md text-body-md">
-        <Navbar />
         {children}
       </body>
     </html>

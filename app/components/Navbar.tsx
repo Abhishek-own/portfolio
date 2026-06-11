@@ -49,7 +49,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav 
+      <motion.nav 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         className={`fixed top-4 left-4 right-4 z-50 flex justify-between items-center px-6 md:px-8 py-3 bg-surface/40 backdrop-blur-xl rounded-full max-w-5xl mx-auto border border-glass-edge shadow-[0_0_40px_rgba(255,149,0,0.1)] transition-all duration-300 ${
           isScrolled ? "scale-98 shadow-[0_0_50px_rgba(255,149,0,0.15)] bg-surface/60" : ""
         }`}
@@ -95,7 +98,7 @@ export default function Navbar() {
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Drawer */}
       <AnimatePresence>

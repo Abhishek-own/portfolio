@@ -4,7 +4,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 
-export default function Hero() {
+interface HeroProps {
+  showContent: boolean;
+}
+
+export default function Hero({ showContent }: HeroProps) {
   const containerRef = useRef(null);
   const { scrollY } = useScroll();
 
@@ -35,6 +39,9 @@ export default function Hero() {
       <motion.div 
         className="absolute inset-0 w-full h-full"
         style={{ y: yBg, opacity: opacityBg, willChange: "transform" }}
+        initial={{ scale: 1.15 }}
+        animate={{ scale: showContent ? 1 : 1.15 }}
+        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <img
           alt="Abhishek Mohapatra Hero Background"
@@ -54,16 +61,17 @@ export default function Hero() {
           <div className="max-w-4xl">
             <motion.span 
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 15 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
               className="font-label-caps text-xs md:text-sm text-primary tracking-[0.4em] mb-4 block font-black"
             >
               SOFTWARE ENGINEER & PRODUCT BUILDER
             </motion.span>
             
             <motion.h1 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 0.9, scale: 1 }}
+              layoutId="hero-title"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.9 }}
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="font-display-lg font-black text-[13vw] md:text-[11vw] leading-none text-starlight-white uppercase tracking-tighter"
@@ -76,8 +84,8 @@ export default function Hero() {
           {/* Description & Scroll button (Wrapped in Glass Card for readability) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+            animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
+            transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
             className="flex flex-col items-start md:items-end text-left md:text-right gap-6 max-w-sm mb-4 glass-card p-6 rounded-2xl border border-glass-edge bg-surface/30 backdrop-blur-md shadow-lg"
           >
             <p className="text-on-surface-variant font-body-md text-sm md:text-base opacity-95 leading-relaxed">
