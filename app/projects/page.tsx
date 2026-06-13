@@ -222,6 +222,7 @@ export default function ProjectsPage() {
     setSelectedYear("All Years");
     setSelectedRole("All Roles");
     setSelectedSkill("All Skills");
+    setExpandedProjectId(null);
   };
 
   const isAnyFilterActive = selectedYear !== "All Years" || selectedRole !== "All Roles" || selectedSkill !== "All Skills";
@@ -263,14 +264,39 @@ export default function ProjectsPage() {
         </div>
       </header>
 
+      {/* Scrolling Announcement Bar (Ticker) */}
+      <div className="w-full bg-cyber-cyan/[0.02] border-y border-glass-edge/30 py-3 overflow-hidden relative select-none">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes ticker-scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-33.3333%, 0, 0); }
+          }
+          .animate-ticker-scroller {
+            display: inline-flex;
+            animation: ticker-scroll 35s linear infinite;
+            will-change: transform;
+          }
+        `}} />
+        <div className="animate-ticker-scroller whitespace-nowrap flex gap-12 font-body-md text-xs text-cyber-cyan/95 tracking-wider uppercase font-semibold">
+          {Array(3).fill(null).map((_, i) => (
+            <span key={i} className="flex items-center gap-12 shrink-0">
+              <span>
+                <span className="text-primary font-bold mr-1">[NOTICE]</span> Client projects shown are simplified demonstrations. Source code, production URLs, and sensitive business data remain confidential under client agreements.
+              </span>
+              <span className="text-primary/40">•</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Main Container */}
-      <main className="py-16 md:py-24">
+      <main className="pt-8 pb-16 md:pt-10 md:pb-24">
         <div className="max-w-container-max mx-auto px-6 md:px-16">
           
           {/* Header & Filter Split Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-12">
             
-            {/* Left Column: Page Title & Privacy Notice */}
+            {/* Left Column: Page Title */}
             <div className="lg:col-span-7 flex flex-col justify-center">
               <div>
                 <span className="font-label-caps text-xs md:text-sm text-primary tracking-[0.4em] mb-4 block uppercase font-bold"
@@ -281,20 +307,9 @@ export default function ProjectsPage() {
                   style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 800 }}>
                   All <span className="text-primary italic">Projects.</span>
                 </h1>
-                <p className="text-on-surface-variant/80 font-body-md text-sm md:text-base mt-4 max-w-xl">
-                  An overview of agritech systems, educational spaces, telehealth suites, and communication automation nodes engineered with pixel-perfect layouts.
+                <p className="text-on-surface-variant/80 font-body-md text-sm md:text-base mt-4 max-w-xl leading-relaxed">
+                  A collection of real-world applications developed for clients across agritech, education, healthcare, automation, and enterprise management domains. Due to confidentiality agreements, project details have been generalized while highlighting the technical solutions and business challenges addressed.
                 </p>
-
-                {/* Privacy Notice Alert Box */}
-                <div className="mt-8 p-4 rounded-xl border border-glass-edge/40 bg-white/[0.01] max-w-3xl flex gap-3 items-start">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-primary border border-primary/30 px-1.5 py-0.5 rounded shrink-0 font-label-caps mt-0.5"
-                    style={{ fontFamily: 'var(--font-space-grotesk)' }}>
-                    Notice
-                  </span>
-                  <p className="text-xs text-on-surface-variant/70 leading-relaxed font-body-md">
-                    Due to privacy regulations, client policies, and Non-Disclosure Agreements (NDAs), original source code repositories, direct production URLs, and proprietary data assets for specific enterprise systems are restricted. Clean, stylized visual mockups and feature checklists are presented for demonstration.
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -332,7 +347,7 @@ export default function ProjectsPage() {
                     <div className="relative">
                       <select
                         value={selectedYear}
-                        onChange={(e) => setSelectedYear(e.target.value)}
+                        onChange={(e) => { setSelectedYear(e.target.value); setExpandedProjectId(null); }}
                         className="w-full bg-black/30 border border-glass-edge/40 hover:border-cyber-cyan/35 text-xs text-starlight-white rounded-xl py-2.5 pl-3 pr-8 appearance-none cursor-pointer focus:outline-none focus:border-cyber-cyan/50 transition-colors font-body-md"
                       >
                         {filterYears.map((yr) => (
@@ -355,7 +370,7 @@ export default function ProjectsPage() {
                     <div className="relative">
                       <select
                         value={selectedRole}
-                        onChange={(e) => setSelectedRole(e.target.value)}
+                        onChange={(e) => { setSelectedRole(e.target.value); setExpandedProjectId(null); }}
                         className="w-full bg-black/30 border border-glass-edge/40 hover:border-cyber-cyan/35 text-xs text-starlight-white rounded-xl py-2.5 pl-3 pr-8 appearance-none cursor-pointer focus:outline-none focus:border-cyber-cyan/50 transition-colors font-body-md"
                       >
                         {filterRoles.map((role) => (
@@ -378,7 +393,7 @@ export default function ProjectsPage() {
                     <div className="relative">
                       <select
                         value={selectedSkill}
-                        onChange={(e) => setSelectedSkill(e.target.value)}
+                        onChange={(e) => { setSelectedSkill(e.target.value); setExpandedProjectId(null); }}
                         className="w-full bg-black/30 border border-glass-edge/40 hover:border-cyber-cyan/35 text-xs text-starlight-white rounded-xl py-2.5 pl-3 pr-8 appearance-none cursor-pointer focus:outline-none focus:border-cyber-cyan/50 transition-colors font-body-md"
                       >
                         {filterSkills.map((sk) => (
@@ -582,45 +597,42 @@ export default function ProjectsPage() {
               );
             };
 
+            const filterKey = `${selectedYear}-${selectedRole}-${selectedSkill}`;
+
             return (
-              <>
-                {/* Desktop layout: split columns so cards below them can sit up nicely without empty space */}
-                {filteredProjects.length > 0 && (
+              <AnimatePresence mode="wait">
+                {filteredProjects.length > 0 ? (
                   <motion.div
-                    key={`desktop-grid-${selectedYear}-${selectedRole}-${selectedSkill}`}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="hidden lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-start w-full"
+                    key={filterKey}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.28, ease: "easeOut" }}
+                    className="w-full"
                   >
-                    <div className="flex flex-col gap-8 md:gap-12 w-full">
-                      {filteredProjects.filter((_, idx) => idx % 2 === 0).map(renderProjectCard)}
+                    {/* Desktop layout: split columns so expanding one card doesn't shift the other column */}
+                    <div className="hidden lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-start w-full">
+                      <div className="flex flex-col gap-8 md:gap-12 w-full">
+                        {filteredProjects.filter((_, idx) => idx % 2 === 0).map(renderProjectCard)}
+                      </div>
+                      <div className="flex flex-col gap-8 md:gap-12 w-full">
+                        {filteredProjects.filter((_, idx) => idx % 2 !== 0).map(renderProjectCard)}
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-8 md:gap-12 w-full">
-                      {filteredProjects.filter((_, idx) => idx % 2 !== 0).map(renderProjectCard)}
+
+                    {/* Mobile / Tablet layout: single stacked list in sequential order */}
+                    <div className="lg:hidden flex flex-col gap-8 md:gap-12 w-full">
+                      {filteredProjects.map(renderProjectCard)}
                     </div>
                   </motion.div>
-                )}
-
-                {/* Mobile / Tablet layout: single stacked list in sequential order */}
-                {filteredProjects.length > 0 && (
+                ) : (
                   <motion.div
-                    key={`mobile-list-${selectedYear}-${selectedRole}-${selectedSkill}`}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="lg:hidden flex flex-col gap-8 md:gap-12 w-full"
-                  >
-                    {filteredProjects.map(renderProjectCard)}
-                  </motion.div>
-                )}
-
-                {/* Empty state fallback */}
-                {filteredProjects.length === 0 && (
-                  <motion.div
+                    key="empty-state"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center py-20 px-6 glass-card rounded-2xl border border-glass-edge/40 max-w-3xl mt-12 w-full"
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-center py-20 px-6 glass-card rounded-2xl border border-glass-edge/40 max-w-3xl mx-auto mt-12 w-full"
                   >
                     <Filter className="w-10 h-10 text-primary mx-auto mb-4 opacity-40 animate-pulse" />
                     <h3 className="text-lg font-bold text-starlight-white mb-2 uppercase tracking-tight font-label-caps"
@@ -628,7 +640,7 @@ export default function ProjectsPage() {
                       No Projects Match Selection
                     </h3>
                     <p className="text-on-surface-variant/80 text-sm font-body-md mb-6 max-w-md mx-auto">
-                      No items match date range "{selectedYear}", role "{selectedRole}", and skill "{selectedSkill}". Try adjusting your filters.
+                      No projects match {selectedYear !== "All Years" ? `year "${selectedYear}"` : ""}{selectedRole !== "All Roles" ? `, role "${selectedRole}"` : ""}{selectedSkill !== "All Skills" ? `, skill "${selectedSkill}"` : ""}. Try adjusting your filters.
                     </p>
                     <button
                       onClick={clearFilters}
@@ -639,7 +651,7 @@ export default function ProjectsPage() {
                     </button>
                   </motion.div>
                 )}
-              </>
+              </AnimatePresence>
             );
           })()}
 
