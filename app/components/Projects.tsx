@@ -9,18 +9,16 @@ interface ProjectCardProps {
   alt: string;
   label: string;
   title: string;
-  description?: string;
   className?: string;
-  features?: string[];
-  links?: { label: string; url: string }[];
 }
 
-function ProjectCard({ src, alt, label, title, description, className = "", features, links }: ProjectCardProps) {
+function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div
-      className={`relative overflow-hidden rounded-2xl glass-card cursor-pointer group w-full ${className}`}
+    <Link
+      href="/projects"
+      className={`block relative overflow-hidden rounded-2xl glass-card cursor-pointer group w-full ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -49,59 +47,27 @@ function ProjectCard({ src, alt, label, title, description, className = "", feat
           </span>
         </div>
 
-        {/* Title, Description, Features & Links */}
-        <div className="flex flex-col gap-3">
-          <div>
-            <h3
-              className="text-lg md:text-xl lg:text-2xl font-bold text-starlight-white leading-tight uppercase group-hover:text-primary transition-colors"
-              style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+        {/* Title & Click CTA */}
+        <div className="flex flex-col gap-2">
+          <h3
+            className="text-lg md:text-xl lg:text-2xl font-bold text-starlight-white leading-tight uppercase group-hover:text-primary transition-colors"
+            style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+          >
+            {title}
+          </h3>
+          
+          <div className="overflow-hidden h-4 relative">
+            <span 
+              className="text-[10px] text-cyber-cyan font-bold uppercase tracking-wider block transition-all duration-300 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
             >
-              {title}
-            </h3>
+              Click to view case study &rarr;
+            </span>
           </div>
-
-          {/* Explanation description */}
-          {description && (
-            <p className="text-xs text-on-surface-variant/85 font-body-md leading-relaxed max-w-xl line-clamp-2 md:line-clamp-none">
-              {description}
-            </p>
-          )}
-
-          {/* Features Badges */}
-          {features && (
-            <div className="flex flex-wrap gap-1.5 opacity-90">
-              {features.map((feat) => (
-                <span
-                  key={feat}
-                  className="text-[9px] md:text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-on-surface-variant/90 font-body-md"
-                >
-                  {feat}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* External Links */}
-          {links && links.length > 0 && (
-            <div className="flex gap-4 mt-1" onClick={(e) => e.stopPropagation()}>
-              {links.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[10px] md:text-xs text-cyber-cyan hover:text-white transition-colors flex items-center gap-1 font-bold underline decoration-cyber-cyan/30 underline-offset-4"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
-                  {link.label} &rarr;
-                </a>
-              ))}
-            </div>
-          )}
         </div>
 
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -144,12 +110,6 @@ export default function Projects() {
               alt="Agritech Platform & Business ERP"
               label="01 / FULL STACK / 2025"
               title="Agritech Platform & Business ERP (Hola Tractor)"
-              description="An agricultural fleet orchestration ERP designed to coordinate heavy machinery rentals, leasing pipelines, multi-party business contracts, and field transportation services."
-              features={["Equipment Rental", "Leasing", "Finance & Insurance", "Dealer Management", "Transportation Services", "Multi-role System"]}
-              links={[
-                { label: "Website", url: "https://holatractor.com" },
-                { label: "Dashboard", url: "https://dashboard.holatractor.com/login" }
-              ]}
             />
           </div>
 
@@ -161,8 +121,6 @@ export default function Projects() {
               alt="Learning & Creator Platform"
               label="02 / FULL STACK / 2025"
               title="Learning & Creator Platform (Udemy-like)"
-              description="A creator-centric LMS enabling course authoring, video streaming configurations, student progress portals, and automated mentor assignments."
-              features={["Course Management", "Video Streaming", "S3 Storage", "Reels System", "Student Portal", "Creator Dashboard"]}
             />
           </div>
 
@@ -219,8 +177,6 @@ export default function Projects() {
               alt="AI Wellness & Progress Platform"
               label="03 / HEALTHCARE / 2025"
               title="AI Wellness & Progress Platform"
-              description="A telehealth workspace generating automated patient progress roadmaps and enabling real-time video consultation widgets."
-              features={["Personalized Roadmaps", "Live Sessions", "Webinar Platform", "Doctor/Patient Roles", "Activity Tracking"]}
             />
           </div>
 
