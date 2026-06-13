@@ -47,7 +47,7 @@ export default function Hero({ showContent }: HeroProps) {
           alt="Abhishek Mohapatra Hero Background"
           className="w-full h-full object-cover object-[center_20%] grayscale"
           style={{ imageRendering: "auto", willChange: "transform" }}
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlae4w2tb2dhiwhj3maQ7HgeV9JY8bp8OOfzd_6ETrAPlU9khhMhv_-YNakgAgt2_Sqnhkq3oiaSwpUYGAaUzWe3xLRcjYj2gmlhUgAVDN2WeiyTSl79-J6g0MHqiSUbADoWEDFLPtT6M1LEyr03WJdpt_WghBe2U39b9EcAUMzjT0PWtR25BiXUGRW2VbP5qPZsnDrlOdWXALVSZLMVII_5v57nJlZcDctx5nRubEkp40r3eB2C-3shukO5qzNSNbxkkO-4NaOacP=w3840"
+          src="/profile.jpeg"
         />
       </motion.div>
 

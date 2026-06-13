@@ -1,21 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface ProjectCardProps {
   src: string;
   alt: string;
   label: string;
   title: string;
+  description?: string;
   className?: string;
+  features?: string[];
+  links?: { label: string; url: string }[];
 }
 
-function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProps) {
+function ProjectCard({ src, alt, label, title, description, className = "", features, links }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl glass-card cursor-pointer ${className}`}
+      className={`relative overflow-hidden rounded-2xl glass-card cursor-pointer group w-full ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -24,25 +28,77 @@ function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProp
         alt={alt}
         className="absolute inset-0 w-full h-full object-cover object-center"
         style={{
-          filter: hovered ? "grayscale(0%)" : "grayscale(100%)",
+          filter: hovered ? "grayscale(40%) brightness(50%)" : "grayscale(100%) brightness(70%)",
           transform: hovered ? "scale(1.05)" : "scale(1)",
           transition: "filter 0.3s ease-out, transform 0.3s ease-out",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 z-10" />
-      <div className="absolute bottom-0 left-0 p-6 z-20">
-        <span
-          className="text-primary text-[10px] tracking-widest mb-2 block uppercase font-bold"
-          style={{ fontFamily: "var(--font-space-grotesk)" }}
-        >
-          {label}
-        </span>
-        <h3
-          className="text-lg md:text-xl font-bold text-starlight-white"
-          style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
-        >
-          {title}
-        </h3>
+      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-95 z-10" />
+      
+      {/* Card Content Overlay */}
+      <div className="absolute inset-0 p-6 flex flex-col justify-between z-20">
+        
+        {/* Subtitle / Category Label */}
+        <div>
+          <span
+            className="text-primary text-[10px] tracking-widest block uppercase font-bold"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            {label}
+          </span>
+        </div>
+
+        {/* Title, Description, Features & Links */}
+        <div className="flex flex-col gap-3">
+          <div>
+            <h3
+              className="text-lg md:text-xl lg:text-2xl font-bold text-starlight-white leading-tight uppercase group-hover:text-primary transition-colors"
+              style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+            >
+              {title}
+            </h3>
+          </div>
+
+          {/* Explanation description */}
+          {description && (
+            <p className="text-xs text-on-surface-variant/85 font-body-md leading-relaxed max-w-xl line-clamp-2 md:line-clamp-none">
+              {description}
+            </p>
+          )}
+
+          {/* Features Badges */}
+          {features && (
+            <div className="flex flex-wrap gap-1.5 opacity-90">
+              {features.map((feat) => (
+                <span
+                  key={feat}
+                  className="text-[9px] md:text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-on-surface-variant/90 font-body-md"
+                >
+                  {feat}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* External Links */}
+          {links && links.length > 0 && (
+            <div className="flex gap-4 mt-1" onClick={(e) => e.stopPropagation()}>
+              {links.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] md:text-xs text-cyber-cyan hover:text-white transition-colors flex items-center gap-1 font-bold underline decoration-cyber-cyan/30 underline-offset-4"
+                  style={{ fontFamily: "var(--font-space-grotesk)" }}
+                >
+                  {link.label} &rarr;
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );
@@ -56,72 +112,68 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="py-16 bg-background">
+    <section id="projects" className="py-20 bg-background">
       <div className="max-w-container-max mx-auto px-6 md:px-16">
-        {/* Header */}
-        <div className="flex justify-between items-end mb-10">
+        
+        {/* Section Header */}
+        <div className="flex justify-between items-end mb-12">
           <h2
-            className="text-3xl md:text-5xl font-bold text-starlight-white"
+            className="text-3xl md:text-5xl font-bold text-starlight-white uppercase tracking-tighter"
             style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
           >
-            Featured Projects
+            Featured <span className="text-primary italic">Projects.</span>
           </h2>
-          <a
-            href="https://github.com/Abhishek-own"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:text-white transition-colors text-[10px] tracking-wider text-right"
-            style={{ fontFamily: "var(--font-space-grotesk)", letterSpacing: "0.1em" }}
+          <Link
+            href="/projects"
+            className="text-primary hover:text-white transition-colors text-[10px] tracking-wider text-right uppercase font-bold"
+            style={{ fontFamily: "var(--font-space-grotesk)", letterSpacing: "0.15em" }}
           >
-            VIEW ALL<br className="md:hidden" /> PROJECTS (12)
-          </a>
+            VIEW ALL<br className="md:hidden" /> PROJECTS (7)
+          </Link>
         </div>
 
-        {/* 
-          Layout Strategy:
-          - Mobile: Large card → two small cards → stats → quote (all stacked)
-          - Desktop: Left col (large card + stats + quote) | Right col (two small cards spanning both rows)
-        */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+        {/* Layout Grid - Flat layout for desktop columns alignment */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-stretch">
 
-          {/* [MOBILE: order 1] [DESKTOP: col 1-8, row 1] Large card */}
+          {/* Large Card: Hola Tractor */}
           <div className="md:col-span-8 order-1">
             <ProjectCard
-              className="aspect-[16/9]"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJCKtPAPf8Gfb_Zj7QrFDx8rdI5gnBJXc82g7fGb28QovDDOxTgkHsR-yqPqmEjHlwVoXiSGWKv6w0zR2Ucu1gK4Egvzgbd8xx2knPSPILUkoP1jovjXhcDDWl2RaFRecyF84k-CAFsU58jNf6tkCoWOlqUgSFN2NlL2IfiB8kMup350a1Xhl6vh3pAcC4_QMtKiVz15fuciE6C_QzZiGis1IAh_MNICzROg2mHYynegc3XYEf66LAO26WEYqaXsunF5IPpuY_l2uY"
+              className="aspect-[16/9] min-h-[300px]"
+              src="/project_image/holatractor_clean.png"
               alt="Agritech Platform & Business ERP"
-              label="01 / WEBGL / 2024"
-              title="Agritech Platform & Business ERP"
+              label="01 / FULL STACK / 2025"
+              title="Agritech Platform & Business ERP (Hola Tractor)"
+              description="An agricultural fleet orchestration ERP designed to coordinate heavy machinery rentals, leasing pipelines, multi-party business contracts, and field transportation services."
+              features={["Equipment Rental", "Leasing", "Finance & Insurance", "Dealer Management", "Transportation Services", "Multi-role System"]}
+              links={[
+                { label: "Website", url: "https://holatractor.com" },
+                { label: "Dashboard", url: "https://dashboard.holatractor.com/login" }
+              ]}
             />
           </div>
 
-          {/* [MOBILE: order 2] [DESKTOP: col 9-12, rows 1-2] Two small cards stacked */}
-          <div className="md:col-span-4 md:row-span-2 order-2 flex flex-col gap-6 md:gap-8">
+          {/* Learning Platform (Row 1 Right on Desktop) */}
+          <div className="md:col-span-4 order-2 flex">
             <ProjectCard
-              className="flex-1 aspect-square"
+              className="aspect-[4/3] md:aspect-auto min-h-[300px]"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdM0VEnSNiwMPdnah0O-WiENq7PbcOh2QHsNQS6rTHsl3k6PMgeu_YCRhl5PwLR1G-T2n2uiuMAPQF4wv4SjWpznbgTD7_hFmr-_vFv7wjNw00viJhJi2JSl602W2yTffuLjjdmjRVUuMK3yvJXDlccfOjRsejcocV7LWAAQWPHDna0IDqDUia_DxASy189ZfBT_lZdZtP0URYpNzn6sjg-B-VhEdLfUKHNhYUiEnqKDoDKv-YfxKoT4SPdTmpjJ28j6BRbY2jnDex"
-              alt="SaaS Dashboard"
-              label="02 / FULLSTACK / 2024"
-              title="SaaS Dashboard"
-            />
-            <ProjectCard
-              className="flex-1 aspect-square"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5DNdfLAKQ-4Myb3S4MyNXTgJHi5ff6GpNdGi6_lexH5SEjNwq467OXyxu_CologgJZq2Ba7Hw8KQMjS_LqHZwpwVs1k8Rfz_6GNV0HxhzB6-XQc1BDwRq5GarJlvHHzq8r0gTBeem9HsP-RTQSEQGrPKH3Sg7IP4N0fGWrRbC95wAVA_bak_xyLMXUJUlRjZguW9QZAGqUK-v5VyMw_4ccoeNG2WBzt2ajj7ReyBWv3NZTFzjNhH91qk64CWLPIpsPjKQvQhhZTZi"
-              alt="AI Chatbot & Automation"
-              label="03 / AI SYSTEM / 2025"
-              title="AI Chatbot & Automation"
+              alt="Learning & Creator Platform"
+              label="02 / FULL STACK / 2025"
+              title="Learning & Creator Platform (Udemy-like)"
+              description="A creator-centric LMS enabling course authoring, video streaming configurations, student progress portals, and automated mentor assignments."
+              features={["Course Management", "Video Streaming", "S3 Storage", "Reels System", "Student Portal", "Creator Dashboard"]}
             />
           </div>
 
-          {/* [MOBILE: order 3] [DESKTOP: col 1-8, row 2] Stats + Quote */}
-          <div className="md:col-span-8 order-3 flex flex-col gap-6">
+          {/* Stats + Quote (Row 2 Left on Desktop) */}
+          <div className="md:col-span-8 order-4 md:order-3 flex flex-col gap-6 justify-between pt-8 border-t border-glass-edge/30">
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-glass-edge/30">
+            <div className="grid grid-cols-3 gap-6">
               {stats.map((stat, i) => (
                 <div key={i} className="flex flex-col gap-1">
                   <span
-                    className="text-3xl md:text-5xl font-bold text-primary"
-                    style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
+                    className="text-3xl md:text-5xl font-bold text-primary tracking-tighter"
+                    style={{ fontFamily: "var(--font-epilogue)", fontWeight: 900 }}
                   >
                     {stat.value}
                   </span>
@@ -136,7 +188,7 @@ export default function Projects() {
             </div>
 
             {/* Quote */}
-            <blockquote className="space-y-0.5">
+            <blockquote className="space-y-1 my-4">
               <p
                 className="text-xl md:text-3xl font-bold text-primary italic"
                 style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
@@ -158,16 +210,34 @@ export default function Projects() {
             </blockquote>
           </div>
 
+          {/* Healthcare Platform (Row 2 Right on Desktop) */}
+          <div className="md:col-span-4 order-3 md:order-4 flex">
+            <ProjectCard
+              className="aspect-[4/3] md:aspect-auto min-h-[300px]"
+              src="/project_image/wellness_clean.png"
+              alt="AI Wellness & Progress Platform"
+              label="03 / HEALTHCARE / 2025"
+              title="AI Wellness & Progress Platform"
+              description="A telehealth workspace generating automated patient progress roadmaps and enabling real-time video consultation widgets."
+              features={["Personalized Roadmaps", "Live Sessions", "Webinar Platform", "Doctor/Patient Roles", "Activity Tracking"]}
+            />
+          </div>
+
         </div>
 
-        <div className="mt-10 text-center">
+        {/* Footer Credit & Privacy Tag */}
+        <div className="mt-16 text-center opacity-30 flex flex-col gap-1 max-w-xl mx-auto">
           <span
-            className="text-xs text-outline opacity-50 tracking-widest uppercase"
+            className="text-[10px] md:text-xs text-outline tracking-widest uppercase font-bold"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
-            Made with love and coffee
+            Engineered with Purpose &bull; Abhishek Mohapatra
           </span>
+          <p className="text-[9px] md:text-[10px] text-on-surface-variant/60 leading-relaxed font-body-md">
+            * Note: To respect client privacy and NDAs, certain project URLs are restricted and visual interfaces are replaced with clean, anonymous dummy screens.
+          </p>
         </div>
+
       </div>
     </section>
   );
