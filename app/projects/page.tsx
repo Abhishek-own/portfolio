@@ -276,6 +276,13 @@ export default function ProjectsPage() {
             animation: ticker-scroll 35s linear infinite;
             will-change: transform;
           }
+          @keyframes slow-pulse {
+            0%, 100% { opacity: 0.95; }
+            50% { opacity: 0.45; }
+          }
+          .animate-slow-pulse {
+            animation: slow-pulse 3.5s ease-in-out infinite;
+          }
         `}} />
         <div className="animate-ticker-scroller whitespace-nowrap flex gap-12 font-body-md text-xs text-cyber-cyan/95 tracking-wider uppercase font-semibold">
           {Array(3).fill(null).map((_, i) => (
@@ -307,9 +314,18 @@ export default function ProjectsPage() {
                   style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 800 }}>
                   All <span className="text-primary italic">Projects.</span>
                 </h1>
-                <p className="text-on-surface-variant/80 font-body-md text-sm md:text-base mt-4 max-w-xl leading-relaxed">
-                  A collection of real-world applications developed for clients across agritech, education, healthcare, automation, and enterprise management domains. Due to confidentiality agreements, project details have been generalized while highlighting the technical solutions and business challenges addressed.
+                <p className="text-on-surface-variant/70 font-body-md text-xs md:text-sm mt-4 max-w-2xl leading-relaxed">
+                  A collection of real-world applications delivered across agritech, education, healthcare, automation, and enterprise domains. These projects showcase practical business solutions, modern architectures, and the technologies used to bring them to life.
                 </p>
+                <div className="mt-6 p-4 rounded-xl border border-glass-edge/40 bg-white/[0.01] max-w-2xl flex gap-3 items-start animate-slow-pulse">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-primary border border-primary/30 px-1.5 py-0.5 rounded shrink-0 font-label-caps mt-0.5"
+                    style={{ fontFamily: 'var(--font-space-grotesk)' }}>
+                    Notice
+                  </span>
+                  <p className="text-[11px] md:text-xs text-on-surface-variant/70 leading-relaxed font-body-md">
+                    Due to privacy regulations, client policies, and Non-Disclosure Agreements (NDAs), original source code repositories, direct production URLs, and proprietary data assets for specific enterprise systems are restricted. Clean, stylized visual mockups and feature checklists are presented for demonstration.
+                  </p>
+                </div>
               </div>
             </div>
 

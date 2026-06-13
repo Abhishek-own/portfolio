@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Coffee } from "lucide-react";
 
 interface ProjectCardProps {
   src: string;
@@ -34,10 +35,10 @@ function ProjectCard({ src, alt, label, title, description, className = "", feat
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-95 z-10" />
-      
+
       {/* Card Content Overlay */}
       <div className="absolute inset-0 p-6 flex flex-col justify-between z-20">
-        
+
         {/* Subtitle / Category Label */}
         <div>
           <span
@@ -114,7 +115,7 @@ export default function Projects() {
   return (
     <section id="projects" className="py-20 bg-background">
       <div className="max-w-container-max mx-auto px-6 md:px-16">
-        
+
         {/* Section Header */}
         <div className="flex justify-between items-end mb-12">
           <h2
@@ -226,14 +227,24 @@ export default function Projects() {
         </div>
 
         {/* Footer Credit & Privacy Tag */}
-        <div className="mt-16 text-center opacity-30 flex flex-col gap-1 max-w-xl mx-auto">
+        <div className="mt-16 text-center flex flex-col gap-2 max-w-xl mx-auto">
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes coffee-glow {
+              0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 1px rgba(255, 184, 0, 0.1)); }
+              50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 184, 0, 0.85)); }
+            }
+            .animate-coffee-glow {
+              animation: coffee-glow 3s ease-in-out infinite;
+            }
+          `}} />
           <span
-            className="text-[10px] md:text-xs text-outline tracking-widest uppercase font-bold"
+            className="text-[10px] md:text-xs text-outline tracking-widest uppercase font-bold flex items-center justify-center gap-2"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
-            Engineered with Purpose &bull; Abhishek Mohapatra
+            <span className="opacity-30">Engineered with Purpose &bull; Love &amp; Coffie</span>
+            <Coffee className="w-3.5 h-3.5 text-primary shrink-0 animate-coffee-glow" />
           </span>
-          <p className="text-[9px] md:text-[10px] text-on-surface-variant/60 leading-relaxed font-body-md">
+          <p className="text-[9px] md:text-[10px] text-on-surface-variant/60 leading-relaxed font-body-md opacity-35">
             * Note: To respect client privacy and NDAs, certain project URLs are restricted and visual interfaces are replaced with clean, anonymous dummy screens.
           </p>
         </div>
