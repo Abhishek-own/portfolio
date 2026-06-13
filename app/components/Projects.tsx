@@ -140,7 +140,7 @@ export default function Projects() {
           <div className="md:col-span-8 order-1">
             <ProjectCard
               className="aspect-[16/9] min-h-[300px]"
-              src="/project_image/holatractor_clean.png"
+              src="/project_image/agritech_mockup.png"
               alt="Agritech Platform & Business ERP"
               label="01 / FULL STACK / 2025"
               title="Agritech Platform & Business ERP (Hola Tractor)"
@@ -215,7 +215,7 @@ export default function Projects() {
           <div className="md:col-span-4 order-3 md:order-4 flex">
             <ProjectCard
               className="aspect-[4/3] md:aspect-auto min-h-[300px]"
-              src="/project_image/wellness_clean.png"
+              src="/project_image/wellness_mockup.png"
               alt="AI Wellness & Progress Platform"
               label="03 / HEALTHCARE / 2025"
               title="AI Wellness & Progress Platform"

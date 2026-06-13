@@ -13,7 +13,7 @@ export default function ProjectsPage() {
       label: "01 / FULL STACK / 2025",
       title: "Agritech Platform & Business ERP (Hola Tractor)",
       description: "An agricultural fleet orchestration ERP designed to coordinate heavy machinery rentals, leasing pipelines, multi-party business contracts, and field transportation services.",
-      src: "/project_image/holatractor_clean.png",
+      src: "/project_image/agritech_mockup.png",
       links: [
         { label: "Website", url: "https://holatractor.com" },
         { label: "Dashboard", url: "https://dashboard.holatractor.com/login" }
@@ -67,7 +67,7 @@ export default function ProjectsPage() {
       label: "03 / HEALTHCARE / 2024",
       title: "AI Wellness & Progress Platform",
       description: "A modern telehealth platform offering automated wellness plans, doctor workspaces, LiveKit-powered consultation widgets, and wellness logs.",
-      src: "/project_image/wellness_clean.png",
+      src: "/project_image/wellness_mockup.png",
       features: ["Personalized Roadmaps", "Live Sessions", "Webinar Platform", "Doctor Dashboard", "Patient Portal", "Activity Tracking"],
       whatItDoes: "A personalized wellness platform that generates custom task roadmaps based on user responses. Users receive daily goals and activities while doctors and mentors can conduct live sessions and monitor progress.",
       technicalOverview: "Developed a multi-role platform supporting patients, doctors, and administrators. The system dynamically generates personalized roadmaps, tracks user activity, manages progress reports, and integrates real-time communication using LiveKit.",
