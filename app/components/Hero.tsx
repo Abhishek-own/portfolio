@@ -68,17 +68,23 @@ export default function Hero({ showContent }: HeroProps) {
               SOFTWARE ENGINEER & PRODUCT BUILDER
             </motion.span>
             
-            <motion.h1 
-              layoutId="hero-title"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.9 }}
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="font-display-lg font-black text-[13vw] md:text-[11vw] leading-none text-starlight-white uppercase tracking-tighter"
-              style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 900 }}
-            >
-              ABHISHEK
-            </motion.h1>
+            {showContent && (
+              <motion.h1 
+                layoutId="hero-title"
+                transition={{
+                  type: "tween",
+                  ease: "easeInOut",
+                  duration: 0.25
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.9 }}
+                whileHover={{ opacity: 1 }}
+                className="font-display-lg font-black text-[13vw] md:text-[11vw] leading-none text-starlight-white uppercase tracking-tighter"
+                style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 900 }}
+              >
+                ABHISHEK
+              </motion.h1>
+            )}
           </div>
 
           {/* Description & Scroll button (Wrapped in Glass Card for readability) */}
