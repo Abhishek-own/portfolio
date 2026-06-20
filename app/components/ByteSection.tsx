@@ -71,15 +71,15 @@ export default function ByteSection() {
     }
   }, [conversation, isLoading, loadingMsgIndex]);
 
-  // Re-focus input after loading finishes to prevent losing cursor
+  // Re-focus input after loading finishes to prevent losing cursor (only when a conversation is already active)
   useEffect(() => {
-    if (!isLoading && socket) {
+    if (!isLoading && socket && conversation.length > 1) {
       const inputEl = document.getElementById("byte-chat-input") as HTMLInputElement;
       if (inputEl) {
         inputEl.focus();
       }
     }
-  }, [isLoading, socket]);
+  }, [isLoading, socket, conversation.length]);
 
   // Connect to Byte WebSocket
   useEffect(() => {
