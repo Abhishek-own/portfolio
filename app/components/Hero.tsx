@@ -33,7 +33,7 @@ export default function Hero({ showContent }: HeroProps) {
   return (
     <section 
       ref={containerRef}
-      className="relative h-screen w-full flex items-end overflow-hidden bg-background"
+      className="relative h-[100dvh] w-full flex items-end overflow-hidden bg-background"
     >
       {/* Background Image Container */}
       <motion.div 
@@ -60,7 +60,7 @@ export default function Hero({ showContent }: HeroProps) {
       <div className="absolute inset-0 hero-gradient z-10" />
 
       {/* Hero content container */}
-      <div className="relative w-full max-w-container-max mx-auto px-6 md:px-16 pb-24 md:pb-32 z-20">
+      <div className="relative w-full max-w-container-max mx-auto px-6 md:px-16 pb-8 md:pb-24 z-20">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8">
           {/* Headline */}
           <div className="max-w-4xl">
