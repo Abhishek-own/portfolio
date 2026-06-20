@@ -42,7 +42,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       <div className="flex flex-col items-center justify-center">
         
         {/* Main Name Reveal */}
-        <div className="flex overflow-hidden items-center justify-center mb-4 min-h-[100px] md:min-h-[140px]">
+        <div className="flex overflow-hidden items-center justify-center mb-2 md:mb-4 h-16 md:h-32">
           {step < 2 ? (
             // Staggered letters for intro reveal (no layoutId to prevent premature morphing/glitches)
             <div className="flex items-center justify-center">
@@ -50,7 +50,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="text-6xl md:text-8xl lg:text-9xl text-primary font-black uppercase tracking-tighter"
+                className="text-6xl md:text-8xl lg:text-9xl text-primary font-black uppercase tracking-tighter leading-none"
                 style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 900 }}
               >
                 A
@@ -70,7 +70,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                       ease: [0.16, 1, 0.3, 1],
                       delay: idx * 0.08,
                     }}
-                    className="text-6xl md:text-8xl lg:text-9xl text-starlight-white font-black uppercase tracking-tighter"
+                    className="text-6xl md:text-8xl lg:text-9xl text-starlight-white font-black uppercase tracking-tighter leading-none"
                     style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 900 }}
                   >
                     {letter}
@@ -87,7 +87,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 ease: "easeInOut",
                 duration: 0.25
               }}
-              className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter"
+              className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
               style={{ fontFamily: 'var(--font-epilogue)', fontWeight: 900 }}
             >
               <span className="text-primary">A</span>

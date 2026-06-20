@@ -1,9 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Bot, User, Send, ArrowRight, AlertTriangle } from "lucide-react";
 import { io, Socket } from "socket.io-client";
+
+// Funny wake-up messages that cycle when the server is slow (cold start)
+const WAKEUP_MESSAGES = [
+  "Analyzing codebase...",
+  "Hmm, it's been a while since anyone talked to me... give me a sec ☕",
+  "Still booting up... my server takes naps when no one's around 😴",
+  "Almost there... just finishing my coffee ☕",
+  "Okay okay I'm awake! Dusting off the neural pathways...",
+  "Fun fact: I dream in binary. Anyway, almost ready...",
+  "Server's warming up... like me on a Monday morning 🥱",
+];
+
+// How often to cycle to the next message (in ms)
+const WAKEUP_INTERVAL = 5000;
 
 export default function ByteSection() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -21,26 +35,64 @@ export default function ByteSection() {
   const [sessionId] = useState(
     () => `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
+  const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Clear wakeup timer
+  const clearWakeupTimer = useCallback(() => {
+    if (loadingTimerRef.current) {
+      clearInterval(loadingTimerRef.current);
+      loadingTimerRef.current = null;
+    }
+    setLoadingMsgIndex(0);
+  }, []);
+
+  // Start cycling through wakeup messages when loading
+  useEffect(() => {
+    if (isLoading) {
+      setLoadingMsgIndex(0);
+      loadingTimerRef.current = setInterval(() => {
+        setLoadingMsgIndex((prev) => {
+          const next = prev + 1;
+          // Stop cycling once we've shown all messages (stay on last one)
+          return next >= WAKEUP_MESSAGES.length ? WAKEUP_MESSAGES.length - 1 : next;
+        });
+      }, WAKEUP_INTERVAL);
+    } else {
+      clearWakeupTimer();
+    }
+    return () => clearWakeupTimer();
+  }, [isLoading, clearWakeupTimer]);
 
   // Auto-scroll to bottom when conversation updates
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [conversation, isLoading]);
+  }, [conversation, isLoading, loadingMsgIndex]);
+
+  // Re-focus input after loading finishes to prevent losing cursor
+  useEffect(() => {
+    if (!isLoading && socket) {
+      const inputEl = document.getElementById("byte-chat-input") as HTMLInputElement;
+      if (inputEl) {
+        inputEl.focus();
+      }
+    }
+  }, [isLoading, socket]);
 
   // Connect to Byte WebSocket
   useEffect(() => {
     const newSocket = io("https://byte-backend-b05x.onrender.com/");
 
     newSocket.on("connect", () => {
-      console.log("🤖 Connected to Byte!");
+      console.log("Connected to Byte!");
     });
 
     newSocket.on(
       "byteResponse",
       (data: { answer: string; wasRoasted: boolean; roastCount: number }) => {
-        console.log("📨 Byte responded:", data);
+        console.log("Byte responded:", data);
         setConversation((prev) => [
           ...prev,
           {
@@ -54,7 +106,7 @@ export default function ByteSection() {
     );
 
     newSocket.on("disconnect", () => {
-      console.log("👋 Disconnected from Byte");
+      console.log("Disconnected from Byte");
     });
 
     setSocket(newSocket);
@@ -87,14 +139,14 @@ export default function ByteSection() {
   };
 
   return (
-    <section id="byte" className="py-16 relative overflow-hidden bg-surface-container-lowest">
+    <section id="byte" className="py-10 md:py-16 relative overflow-hidden bg-surface-container-lowest">
       {/* Floating Orbs */}
       <div className="floating-orb absolute top-1/2 left-1/4 w-[350px] h-[350px] bg-primary/5 rounded-full" />
       <div className="floating-orb absolute bottom-0 right-1/4 w-[250px] h-[250px] bg-cyber-cyan/5 rounded-full" style={{ animationDelay: "-5s" }} />
 
       <div className="max-w-container-max mx-auto px-6 md:px-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          
+
           {/* Left Column: Info & Action */}
           <div>
             <div className="flex items-center gap-3 mb-6">
@@ -115,7 +167,7 @@ export default function ByteSection() {
                 I swear that wasn't intentional.
               </p>
             </div>
-            <button 
+            <button
               onClick={() => {
                 const inputEl = document.querySelector("#byte-chat-input") as HTMLInputElement;
                 if (inputEl) inputEl.focus();
@@ -134,19 +186,18 @@ export default function ByteSection() {
           {/* Right Column: Chat Simulator */}
           <div className="glass-card p-1 rounded-3xl relative">
             <div className="bg-deep-space/80 backdrop-blur-3xl p-6 md:p-8 rounded-[calc(1.5rem-4px)] min-h-[420px] flex flex-col justify-between">
-              
+
               {/* Chat Messages Bounded Container */}
-              <div 
+              <div
                 ref={chatContainerRef}
-                className="space-y-6 max-h-[300px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-glass-edge scrollbar-track-transparent"
+                className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar"
                 style={{ scrollbarWidth: "thin" }}
               >
                 {conversation.map((msg, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`flex gap-4 items-start ${
-                      msg.role === "user" ? "justify-end" : ""
-                    }`}
+                  <div
+                    key={idx}
+                    className={`flex gap-4 items-start ${msg.role === "user" ? "justify-end" : ""
+                      }`}
                   >
                     {/* Bot Avatar */}
                     {msg.role === "byte" && (
@@ -156,12 +207,11 @@ export default function ByteSection() {
                     )}
 
                     {/* Chat Bubble */}
-                    <div 
-                      className={`px-5 py-3 rounded-2xl border ${
-                        msg.role === "byte" 
-                          ? "glass-card rounded-tl-none border-cyber-cyan/10 text-on-surface" 
+                    <div
+                      className={`px-5 py-3 rounded-2xl border ${msg.role === "byte"
+                          ? "glass-card rounded-tl-none border-cyber-cyan/10 text-on-surface"
                           : "bg-surface-container-highest rounded-tr-none border-glass-edge text-on-surface-variant max-w-[80%]"
-                      }`}
+                        }`}
                     >
                       <p className="text-xs md:text-sm whitespace-pre-line leading-relaxed">
                         {msg.text}
@@ -177,7 +227,7 @@ export default function ByteSection() {
                   </div>
                 ))}
 
-                {/* Thinking/Loading Indicator */}
+                {/* Thinking/Loading Indicator with wake-up messages */}
                 {isLoading && (
                   <div className="flex gap-4 items-start">
                     <div className="w-8 h-8 rounded-lg bg-cyber-cyan/20 border border-cyber-cyan/30 flex items-center justify-center flex-shrink-0">
@@ -189,7 +239,12 @@ export default function ByteSection() {
                         <div className="w-1.5 h-1.5 bg-cyber-cyan rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
                         <div className="w-1.5 h-1.5 bg-cyber-cyan rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
                       </div>
-                      <p className="text-[10px] text-on-surface-variant italic">Analyzing codebase...</p>
+                      <p
+                        key={loadingMsgIndex}
+                        className="text-[10px] text-on-surface-variant italic transition-opacity duration-500 animate-[fadeIn_0.5s_ease-in-out]"
+                      >
+                        {WAKEUP_MESSAGES[loadingMsgIndex]}
+                      </p>
                     </div>
                   </div>
                 )}

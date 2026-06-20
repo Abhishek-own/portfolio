@@ -227,6 +227,42 @@ export default function ProjectsPage() {
 
   const isAnyFilterActive = selectedYear !== "All Years" || selectedRole !== "All Roles" || selectedSkill !== "All Skills";
 
+  const handleDragScrollMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    if (e.button !== 0) return; // Only drag scroll with left mouse click
+    
+    const startX = e.pageX - container.offsetLeft;
+    const scrollLeft = container.scrollLeft;
+    let isDragging = false;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      isDragging = true;
+      container.style.cursor = "grabbing";
+      container.style.userSelect = "none";
+      const x = moveEvent.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5; // Drag speed multiplier
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleMouseUp = () => {
+      container.style.removeProperty("cursor");
+      container.style.removeProperty("user-select");
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      
+      if (isDragging) {
+        const preventClick = (clickEvent: MouseEvent) => {
+          clickEvent.stopImmediatePropagation();
+          container.removeEventListener("click", preventClick, true);
+        };
+        container.addEventListener("click", preventClick, true);
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -444,7 +480,10 @@ export default function ProjectsPage() {
                       src={proj.src}
                       alt={proj.title}
                       className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-300"
-                      style={{ filter: "grayscale(10%) brightness(85%)" }}
+                      style={{ 
+                        filter: "grayscale(10%) brightness(85%)",
+                        WebkitFilter: "grayscale(10%) brightness(85%)"
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-40" />
                   </div>
@@ -556,7 +595,10 @@ export default function ProjectsPage() {
                                     style={{ fontFamily: 'var(--font-space-grotesk)' }}>
                                     Screenshot Gallery
                                   </h4>
-                                  <div className="flex gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-2 px-2 scroll-smooth snap-x">
+                                  <div 
+                                    className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar -mx-2 px-2 scroll-smooth snap-x cursor-grab active:cursor-grabbing"
+                                    onMouseDown={handleDragScrollMouseDown}
+                                  >
                                     {proj.images.map((imgUrl, imgIdx) => (
                                       <div
                                         key={imgIdx}

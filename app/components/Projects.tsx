@@ -28,8 +28,9 @@ function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProp
         className="absolute inset-0 w-full h-full object-cover object-center"
         style={{
           filter: hovered ? "grayscale(40%) brightness(50%)" : "grayscale(100%) brightness(70%)",
+          WebkitFilter: hovered ? "grayscale(40%) brightness(50%)" : "grayscale(100%) brightness(70%)",
           transform: hovered ? "scale(1.05)" : "scale(1)",
-          transition: "filter 0.3s ease-out, transform 0.3s ease-out",
+          transition: "filter 0.3s ease-out, -webkit-filter 0.3s ease-out, transform 0.3s ease-out",
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-95 z-10" />
@@ -55,9 +56,9 @@ function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProp
           >
             {title}
           </h3>
-          
+
           <div className="overflow-hidden h-4 relative">
-            <span 
+            <span
               className="text-[10px] text-cyber-cyan font-bold uppercase tracking-wider block transition-all duration-300 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
               style={{ fontFamily: "var(--font-space-grotesk)" }}
             >
@@ -74,16 +75,16 @@ function ProjectCard({ src, alt, label, title, className = "" }: ProjectCardProp
 export default function Projects() {
   const stats = [
     { value: "03+", label: "Years" },
-    { value: "25+", label: "Projects" },
+    { value: "18+", label: "Projects" },
     { value: "10+", label: "Technologies" },
   ];
 
   return (
-    <section id="projects" className="py-20 bg-background">
+    <section id="projects" className="py-12 md:py-20 bg-background">
       <div className="max-w-container-max mx-auto px-6 md:px-16">
 
         {/* Section Header */}
-        <div className="flex justify-between items-end mb-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 md:mb-12">
           <h2
             className="text-3xl md:text-5xl font-bold text-starlight-white uppercase tracking-tighter"
             style={{ fontFamily: "var(--font-epilogue)", fontWeight: 800 }}
@@ -92,10 +93,10 @@ export default function Projects() {
           </h2>
           <Link
             href="/projects"
-            className="text-primary hover:text-white transition-colors text-[10px] tracking-wider text-right uppercase font-bold"
+            className="text-primary hover:text-white transition-colors text-[10px] tracking-wider text-left sm:text-right uppercase font-bold shrink-0"
             style={{ fontFamily: "var(--font-space-grotesk)", letterSpacing: "0.15em" }}
           >
-            VIEW ALL<br className="md:hidden" /> PROJECTS (7)
+            VIEW ALL PROJECTS &rarr;
           </Link>
         </div>
 
@@ -183,8 +184,9 @@ export default function Projects() {
         </div>
 
         {/* Footer Credit & Privacy Tag */}
-        <div className="mt-16 text-center flex flex-col gap-2 max-w-xl mx-auto">
-          <style dangerouslySetInnerHTML={{__html: `
+        <div className="mt-10 md:mt-16 text-center flex flex-col gap-2 max-w-xl mx-auto">
+          <style dangerouslySetInnerHTML={{
+            __html: `
             @keyframes coffee-glow {
               0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 1px rgba(255, 184, 0, 0.1)); }
               50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 184, 0, 0.85)); }

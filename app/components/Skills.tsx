@@ -67,11 +67,11 @@ export default function Skills() {
   } as const;
 
   return (
-    <section id="skills" className="py-20 bg-background border-t border-glass-edge/50">
+    <section id="skills" className="py-12 md:py-20 bg-background border-t border-glass-edge/50">
       <div className="max-w-container-max mx-auto px-6 md:px-16">
         
         {/* Section Header */}
-        <div className="mb-12">
+        <div className="mb-8 md:mb-12">
           <span className="font-label-caps text-xs md:text-sm text-primary tracking-[0.4em] mb-4 block uppercase font-bold"
             style={{ fontFamily: 'var(--font-space-grotesk)' }}>
             The Forge
@@ -224,7 +224,7 @@ export default function Skills() {
         </div>
 
         {/* Specialized Expertise block */}
-        <div className="mt-8 flex justify-end">
+        <div className="mt-6 md:mt-8 flex justify-end">
           <div className="text-right max-w-xl opacity-35 hover:opacity-50 transition-opacity duration-200 cursor-default">
             <span className="text-[10px] md:text-xs text-on-surface-variant uppercase tracking-widest block mb-1 font-bold font-label-caps"
               style={{ fontFamily: 'var(--font-space-grotesk)' }}>

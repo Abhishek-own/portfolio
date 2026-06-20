@@ -43,7 +43,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer id="contact" className="bg-deep-space py-20 border-t border-glass-edge">
+    <footer id="contact" className="bg-deep-space py-12 md:py-20 border-t border-glass-edge">
       <div className="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-12 max-w-container-max mx-auto w-full gap-12">
         {/* Brand & Description */}
         <div className="flex flex-col gap-6 items-center md:items-start text-center md:text-left">

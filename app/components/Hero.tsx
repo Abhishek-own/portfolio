@@ -45,8 +45,13 @@ export default function Hero({ showContent }: HeroProps) {
       >
         <img
           alt="Abhishek Mohapatra Hero Background"
-          className="w-full h-full object-cover object-[center_20%] grayscale"
-          style={{ imageRendering: "auto", willChange: "transform" }}
+          className="w-full h-full object-cover object-[center_20%]"
+          style={{ 
+            imageRendering: "auto", 
+            willChange: "transform",
+            filter: "grayscale(100%)",
+            WebkitFilter: "grayscale(100%)"
+          }}
           src="/profile.jpeg"
         />
       </motion.div>
