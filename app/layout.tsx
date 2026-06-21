@@ -8,7 +8,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space
 
 export const metadata: Metadata = {
   title: "Abhishek Mohapatra | Portfolio",
-  description: "Designer & Developer crafting immersive digital ecosystems. Powered by NestJS, Next.js, and TypeScript.",
+  description: "Software Developer crafting immersive digital ecosystems. Powered by NestJS, Next.js, and TypeScript.",
 };
 
 export default function RootLayout({
